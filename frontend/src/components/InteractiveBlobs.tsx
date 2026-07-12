@@ -231,29 +231,43 @@ export const InteractiveBlobs: React.FC<InteractiveBlobsProps> = ({
   };
 
   // Pupil helper for tracking normalized coordinates relative to blob center
-  const createPupilTracker = (cx: number, cy: number) => {
-    const pX = useTransform([springNormX, springNormY] as const, ([mx, my]) => {
+const createPupilTracker = (cx: number, cy: number) => {
+  const pX = useTransform(
+    [springNormX, springNormY] as const,
+    (values) => {
+      const [mx, my] = values as readonly [number, number];
+
       if (focusedField !== "email") return 0;
+
       const dx = mx - cx;
       const dy = my - cy;
       const angle = Math.atan2(dy, dx);
       const dist = Math.sqrt(dx * dx + dy * dy);
       const factor = Math.min(dist * 4, 1);
+
       return Math.cos(angle) * 6 * factor;
-    });
+    }
+  );
 
-    const pY = useTransform([springNormX, springNormY] as const, ([mx, my]) => {
+  const pY = useTransform(
+    [springNormX, springNormY] as const,
+    (values) => {
+      const [mx, my] = values as readonly [number, number];
+
       if (focusedField !== "email") return 0;
+
       const dx = mx - cx;
       const dy = my - cy;
       const angle = Math.atan2(dy, dx);
       const dist = Math.sqrt(dx * dx + dy * dy);
       const factor = Math.min(dist * 4, 1);
-      return Math.sin(angle) * 6 * factor;
-    });
 
-    return { pupilX: pX, pupilY: pY };
-  };
+      return Math.sin(angle) * 6 * factor;
+    }
+  );
+
+  return { pupilX: pX, pupilY: pY };
+};
 
   // Individual Pupil Offset trackers based on character locations
   const orangePupils = createPupilTracker(0.22, 0.85);
