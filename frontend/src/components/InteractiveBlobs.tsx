@@ -235,7 +235,7 @@ const createPupilTracker = (cx: number, cy: number) => {
   const pX = useTransform(
     [springNormX, springNormY] as const,
     (values) => {
-      const [mx, my] = values as readonly [number, number];
+      const [mx, my] = values as unknown as readonly [number, number];
 
       if (focusedField !== "email") return 0;
 
@@ -252,7 +252,7 @@ const createPupilTracker = (cx: number, cy: number) => {
   const pY = useTransform(
     [springNormX, springNormY] as const,
     (values) => {
-      const [mx, my] = values as readonly [number, number];
+      const [mx, my] = values as unknown as readonly [number, number];
 
       if (focusedField !== "email") return 0;
 
