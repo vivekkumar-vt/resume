@@ -68,6 +68,9 @@ public class Resume {
     @Column(name = "section_order")
     private String sectionOrder;
 
+    @Column(columnDefinition = "TEXT")
+    private String summary;
+
     @OneToOne(mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private PersonalDetails personalDetails;
 
@@ -95,6 +98,11 @@ public class Resume {
     @OrderBy("listOrder ASC")
     @Builder.Default
     private List<Certification> certifications = new ArrayList<>();
+
+    @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OrderBy("listOrder ASC")
+    @Builder.Default
+    private List<Language> languages = new ArrayList<>();
 
     @OneToMany(mappedBy = "resume", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @OrderBy("createdAt DESC")
@@ -153,5 +161,10 @@ public class Resume {
     public void addCertification(Certification cert) {
         certifications.add(cert);
         cert.setResume(this);
+    }
+
+    public void addLanguage(Language lang) {
+        languages.add(lang);
+        lang.setResume(this);
     }
 }

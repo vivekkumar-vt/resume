@@ -210,7 +210,7 @@ export default function DashboardPage() {
                 href="/auth/login"
                 className="flex items-center gap-1.5 text-sm font-semibold bg-indigo-600 hover:bg-indigo-500 text-white py-1.5 px-4 rounded-full shadow transition-all duration-200"
               >
-                Sign In to Cloud
+                {/* Sign In to Cloud */}
               </Link>
             )}
           </div>
@@ -353,7 +353,7 @@ export default function DashboardPage() {
                   value={newTitle}
                   onChange={(e) => setNewTitle(e.target.value)}
                   className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-white placeholder-zinc-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 text-sm"
-                  placeholder="e.g. Full Stack Developer 2026"
+                  placeholder="e.g. Full Stack Developer"
                 />
               </div>
 

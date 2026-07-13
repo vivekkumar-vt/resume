@@ -18,6 +18,26 @@ interface EyeProps {
   isClosed?: boolean;
 }
 
+const NervousPupilMotion: React.FC<{ pupilX: MotionValue<number>; pupilY: MotionValue<number> }> = ({ pupilX, pupilY }) => {
+  const x = useTransform(pupilX, (v) => v * 0.4);
+  const y = useTransform(pupilY, (v) => v * 0.4);
+  return (
+    <motion.div
+      style={{ x, y }}
+      className="w-3 h-1 bg-slate-900 rounded-full absolute"
+    />
+  );
+};
+
+const NervousPupilStatic: React.FC<{ pupilX: number; pupilY: number }> = ({ pupilX, pupilY }) => {
+  return (
+    <motion.div
+      style={{ x: pupilX * 0.4, y: pupilY * 0.4 }}
+      className="w-3 h-1 bg-slate-900 rounded-full absolute"
+    />
+  );
+};
+
 const Eye: React.FC<EyeProps> = ({ pupilX, pupilY, isBlinking, expression, isClosed = false }) => {
   const activeClosed = isClosed || isBlinking;
   return (
@@ -36,10 +56,11 @@ const Eye: React.FC<EyeProps> = ({ pupilX, pupilY, isBlinking, expression, isClo
         </svg>
       ) : expression === "nervous" ? (
         // Shy/nervous squinting pupils
-        <motion.div
-          style={{ x: typeof pupilX === "number" ? pupilX * 0.4 : useTransform(pupilX, (v) => v * 0.4), y: typeof pupilY === "number" ? pupilY * 0.4 : useTransform(pupilY, (v) => v * 0.4) }}
-          className="w-3 h-1 bg-slate-900 rounded-full absolute"
-        />
+        typeof pupilX === "number" ? (
+          <NervousPupilStatic pupilX={pupilX} pupilY={pupilY as number} />
+        ) : (
+          <NervousPupilMotion pupilX={pupilX} pupilY={pupilY as MotionValue<number>} />
+        )
       ) : (
         // Normal or curious peeking pupil
         <motion.div
@@ -231,7 +252,7 @@ export const InteractiveBlobs: React.FC<InteractiveBlobsProps> = ({
   };
 
   // Pupil helper for tracking normalized coordinates relative to blob center
-const createPupilTracker = (cx: number, cy: number) => {
+function usePupilTracker(cx: number, cy: number) {
   const pX = useTransform(
     [springNormX, springNormY] as const,
     (values) => {
@@ -270,10 +291,10 @@ const createPupilTracker = (cx: number, cy: number) => {
 };
 
   // Individual Pupil Offset trackers based on character locations
-  const orangePupils = createPupilTracker(0.22, 0.85);
-  const purplePupils = createPupilTracker(0.44, 0.65);
-  const pinkPupils = createPupilTracker(0.68, 0.75);
-  const yellowPupils = createPupilTracker(0.88, 0.70);
+  const orangePupils = usePupilTracker(0.22, 0.85);
+  const purplePupils = usePupilTracker(0.44, 0.65);
+  const pinkPupils = usePupilTracker(0.68, 0.75);
+  const yellowPupils = usePupilTracker(0.88, 0.70);
 
   // Check if password reveal is active (triggers all characters to close eyes)
   const allEyesClosed = isPasswordVisible;
@@ -479,7 +500,6 @@ const createPupilTracker = (cx: number, cy: number) => {
               scaleY: purpleScaleY, 
               rotate: purpleRotate, 
               x: purpleX,
-              skewX: purpleSkewX
             }}
             transition={{
               type: "spring",

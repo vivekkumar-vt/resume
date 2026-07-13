@@ -28,6 +28,7 @@ public class ResumeDto {
     private Boolean showIcons;
     private Boolean showPhoto;
     private String sectionOrder;
+    private String summary;
     private PersonalDetailsDto personalDetails;
     
     @Builder.Default
@@ -44,6 +45,9 @@ public class ResumeDto {
     
     @Builder.Default
     private List<CertificationDto> certifications = new ArrayList<>();
+
+    @Builder.Default
+    private List<LanguageDto> languages = new ArrayList<>();
 
     @Data
     @NoArgsConstructor
@@ -176,6 +180,17 @@ public class ResumeDto {
         private LocalDate expirationDate;
         private String credentialId;
         private String credentialUrl;
+        private Integer listOrder;
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class LanguageDto {
+        private Long id;
+        private String name;
+        private String proficiency;
         private Integer listOrder;
     }
 }

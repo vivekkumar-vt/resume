@@ -5,7 +5,7 @@ import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { 
   ArrowLeft, Save, Download, Sparkles, User, Briefcase, 
-  BookOpen, Code, Award, CheckCircle, Sliders, Plus, Trash2, Eye, AlertCircle
+  BookOpen, Code, Award, CheckCircle, Sliders, Plus, Trash2, Eye, AlertCircle, Globe
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useAuth } from "../../../context/AuthContext";
@@ -31,7 +31,7 @@ export default function BuilderPage() {
   const [debouncedResume, setDebouncedResume] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [saveStatus, setSaveStatus] = useState<"saved" | "saving" | "unsaved">("saved");
-  const [activeTab, setActiveTab] = useState<"personal" | "summary" | "experience" | "projects" | "education" | "skills" | "certifications" | "formatting">("personal");
+  const [activeTab, setActiveTab] = useState<"personal" | "summary" | "experience" | "projects" | "education" | "skills" | "certifications" | "languages" | "formatting">("personal");
   const [error, setError] = useState<string | null>(null);
 
   // Debounced auto-save timer ref
@@ -128,6 +128,26 @@ export default function BuilderPage() {
       triggerAutoSave(next);
       return next;
     });
+  };
+
+  const handleDownload = async () => {
+    if (!resume) return;
+    try {
+      const { pdf } = await import("@react-pdf/renderer");
+      const ResumePDF = (await import("../../../components/ResumePDF")).default;
+      
+      const blob = await pdf(<ResumePDF data={resume} />).toBlob();
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `${resume.title || "resume"}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error("Error generating PDF:", err);
+    }
   };
 
   // Helper change handlers
@@ -235,13 +255,16 @@ export default function BuilderPage() {
         </div>
 
         <div className="flex items-center gap-3">
-          <button className="flex items-center gap-1.5 text-xs font-semibold bg-zinc-800 hover:bg-zinc-700 px-3.5 py-2 rounded-lg border border-zinc-700 text-zinc-300 hover:text-white transition-colors">
+          {/* <button className="flex items-center gap-1.5 text-xs font-semibold bg-zinc-800 hover:bg-zinc-700 px-3.5 py-2 rounded-lg border border-zinc-700 text-zinc-300 hover:text-white transition-colors">
             <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
-            AI Review
-          </button>
+             AI Review 
+          </button> */}
           
           {/* Download triggers client side render and download */}
-          <button className="flex items-center gap-1.5 text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-lg text-white shadow-lg shadow-indigo-500/10 hover:shadow-indigo-500/20 transition-all">
+          <button 
+            onClick={handleDownload}
+            className="flex items-center gap-1.5 text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-lg text-white shadow-lg shadow-indigo-500/10 hover:shadow-indigo-500/20 transition-all"
+          >
             <Download className="h-3.5 w-3.5" />
             Download PDF
           </button>
@@ -262,6 +285,7 @@ export default function BuilderPage() {
               { id: "education", label: "Education", icon: BookOpen },
               { id: "skills", label: "Skills", icon: Sliders },
               { id: "certifications", label: "Certs", icon: Award },
+              { id: "languages", label: "Languages", icon: Globe },
               { id: "formatting", label: "Formatting", icon: Sliders },
             ].map(tab => (
               <button
@@ -382,9 +406,13 @@ export default function BuilderPage() {
                   </div>
                   <textarea
                     rows={6}
-                    value={resume.targetJobRole ? `Experienced professional specializing in ${resume.targetJobRole}. Proven track record of delivering clean architectures and modern solutions with high performance standards.` : ""}
-                    readOnly
-                    className="w-full rounded-lg border border-zinc-800 bg-zinc-900/10 px-3 py-2 text-zinc-400 cursor-not-allowed text-xs focus:outline-none"
+                    value={
+                      resume.summary !== undefined && resume.summary !== null
+                        ? resume.summary
+                        : (resume.targetJobRole ? `Experienced professional specializing in ${resume.targetJobRole}. Proven track record of delivering clean architectures and modern solutions with high performance standards.` : "")
+                    }
+                    onChange={(e) => handleUpdateResume(prev => ({ ...prev, summary: e.target.value }))}
+                    className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-2 text-white placeholder-zinc-600 focus:border-indigo-500 focus:outline-none text-xs"
                     placeholder="Enter summary..."
                   />
                   <p className="text-[10px] text-zinc-500 mt-2">
@@ -854,7 +882,68 @@ export default function BuilderPage() {
               </div>
             )}
 
-            {/* 8. Formatting Tab */}
+            {/* 8. Languages Tab */}
+            {activeTab === "languages" && (
+              <div className="space-y-6">
+                <div className="flex justify-between items-center">
+                  <h3 className="text-base font-bold text-white">Languages</h3>
+                  <button 
+                    onClick={() => handleAddListItem("languages", {
+                      name: "",
+                      proficiency: "Native"
+                    })}
+                    className="flex items-center gap-1 text-xs font-semibold bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-400 px-3.5 py-1.5 rounded-lg transition-colors border border-indigo-500/20"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    Add Language
+                  </button>
+                </div>
+
+                {(resume.languages || []).length === 0 ? (
+                  <p className="text-xs text-zinc-500">No languages listed. Add languages you speak to enhance your profile.</p>
+                ) : (
+                  (resume.languages || []).map((lang: any, index: number) => (
+                    <div key={index} className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/10 space-y-4 relative">
+                      <button 
+                        onClick={() => handleRemoveListItem("languages", index)}
+                        className="absolute top-4 right-4 p-1 hover:bg-zinc-800 rounded text-zinc-500 hover:text-red-400"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                      </button>
+
+                      <div className="grid grid-cols-2 gap-4 w-11/12">
+                        <div>
+                          <label className="block text-[10px] font-medium text-zinc-500 mb-1">Language Name</label>
+                          <input 
+                            type="text" 
+                            value={lang.name || ""} 
+                            onChange={e => handleListChange("languages", index, "name", e.target.value)}
+                            className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
+                            placeholder="e.g. English, Spanish"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[10px] font-medium text-zinc-500 mb-1">Proficiency</label>
+                          <select
+                            value={lang.proficiency || "Native"}
+                            onChange={e => handleListChange("languages", index, "proficiency", e.target.value)}
+                            className="w-full rounded-lg border border-zinc-800 bg-zinc-900 px-3 py-1.5 text-white text-xs focus:outline-none"
+                          >
+                            <option value="Native">Native / Bilingual</option>
+                            <option value="Fluent">Fluent</option>
+                            <option value="Professional Working">Professional Working</option>
+                            <option value="Conversational">Conversational</option>
+                            <option value="Elementary">Elementary</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+
+            {/* 9. Formatting Tab */}
             {activeTab === "formatting" && (
               <div className="space-y-6">
                 <h3 className="text-base font-bold text-white mb-2">Resume Formatting</h3>
@@ -946,7 +1035,7 @@ export default function BuilderPage() {
                 <div className="border-t border-zinc-900 pt-6">
                   <label className="block text-xs font-medium text-zinc-500 mb-2">Section Reordering</label>
                   <div className="space-y-2">
-                    {(resume.sectionOrder || "personal,summary,experience,projects,education,skills,certifications")
+                    {(resume.sectionOrder || "personal,summary,experience,projects,education,skills,certifications,languages")
                       .split(",")
                       .map((sec: string, idx: number, arr: string[]) => {
                         const label = sec === "personal" ? "Contact Details" : sec.charAt(0).toUpperCase() + sec.slice(1);

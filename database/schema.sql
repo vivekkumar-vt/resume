@@ -157,7 +157,16 @@ CREATE TABLE certifications (
     list_order INT DEFAULT 0
 );
 
--- 9. Resume Versions Table
+-- 9. Languages Table
+CREATE TABLE languages (
+    id BIGSERIAL PRIMARY KEY,
+    resume_id UUID NOT NULL REFERENCES resumes(id) ON DELETE CASCADE,
+    name VARCHAR(100) NOT NULL,
+    proficiency VARCHAR(100),
+    list_order INT DEFAULT 0
+);
+
+-- 10. Resume Versions Table
 CREATE TABLE resume_versions (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     resume_id UUID NOT NULL REFERENCES resumes(id) ON DELETE CASCADE,
@@ -165,3 +174,4 @@ CREATE TABLE resume_versions (
     resume_data_json TEXT NOT NULL, -- JSON snapshot of the entire resume
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
+

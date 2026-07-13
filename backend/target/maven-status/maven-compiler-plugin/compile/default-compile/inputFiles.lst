@@ -3,14 +3,18 @@ C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\controller\Aut
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\controller\HealthController.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\controller\ResumeController.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\dto\AuthResponse.java
+C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\dto\ForgotPasswordRequest.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\dto\LoginRequest.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\dto\RegisterRequest.java
+C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\dto\ResetPasswordRequest.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\dto\ResumeDto.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\exception\GlobalExceptionHandler.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\exception\ResourceNotFoundException.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\model\Certification.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\model\Education.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\model\Experience.java
+C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\model\Language.java
+C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\model\PasswordResetToken.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\model\PersonalDetails.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\model\Project.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\model\Resume.java
@@ -18,6 +22,7 @@ C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\model\ResumeVe
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\model\Role.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\model\Skill.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\model\User.java
+C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\repository\PasswordResetTokenRepository.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\repository\ResumeRepository.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\repository\ResumeVersionRepository.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\repository\UserRepository.java
@@ -26,4 +31,6 @@ C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\security\Custo
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\security\CustomUserDetailsService.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\security\JwtAuthenticationFilter.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\security\JwtUtils.java
+C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\service\EmailService.java
 C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\service\ResumeService.java
+C:\Users\vivek\Desktop\resumee\backend\src\main\java\com\resumeai\service\TokenCleanupScheduler.java

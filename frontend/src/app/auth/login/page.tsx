@@ -230,12 +230,12 @@ export default function LoginPage() {
                   </label>
                 </div>
                 <div>
-                  <a
-                    href="#"
+                  <Link
+                    href="/forgot-password"
                     className="text-[13px] font-semibold text-black hover:underline focus:outline-none transition-colors"
                   >
-                    Forgot Password?
-                  </a>
+                   {/* Forgot Password?*/}
+                  </Link>
                 </div>
               </motion.div>
 

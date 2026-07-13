@@ -49,12 +49,12 @@ public class DatabasePersistenceTests {
 
         // 3. Add PersonalDetails
         PersonalDetails personalDetails = PersonalDetails.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .email("john.doe@example.com")
-                .phone("+123456789")
-                .linkedin("linkedin.com/in/johndoe")
-                .github("github.com/johndoe")
+                .firstName("first name")
+                .lastName("last name")
+                .email("[EMAIL_ADDRESS]")
+                .phone("phone")
+                .linkedin("linkedin")
+                .github("github")
                 .build();
         resume.setPersonalDetails(personalDetails);
 
@@ -72,18 +72,18 @@ public class DatabasePersistenceTests {
 
         // 5. Add Project
         Project project = Project.builder()
-                .name("E-Commerce Portal")
+                .name("project ka name ")
                 .techStack("React,Node.js,MongoDB")
-                .githubUrl("github.com/johndoe/shop")
+                .githubUrl("github")
                 .listOrder(0)
                 .build();
         resume.addProject(project);
 
         // 6. Add Education
         Education education = Education.builder()
-                .degree("Bachelor of Technology")
-                .course("Computer Science")
-                .college("University of Tech")
+                .degree("course name here")
+                .course("field")
+                .college("University/school")
                 .startYear(2018)
                 .endYear(2022)
                 .cgpa(9.2f)
@@ -101,8 +101,8 @@ public class DatabasePersistenceTests {
 
         // 8. Add Certification
         Certification cert = Certification.builder()
-                .name("AWS Certified Solutions Architect")
-                .issuer("Amazon Web Services")
+                .name("certificate name")
+                .issuer("issuing authority")
                 .issueDate(LocalDate.of(2023, 6, 15))
                 .listOrder(0)
                 .build();

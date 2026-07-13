@@ -63,9 +63,9 @@ public class ResumeControllerTests {
 
     @Test
     public void testUnauthorizedAccess() throws Exception {
-        // Attempting to fetch resumes without authorization token should return HTTP 403 / 401
+        // Attempting to fetch resumes without authorization token should return HTTP 401
         mockMvc.perform(get("/api/resumes"))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test

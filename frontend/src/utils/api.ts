@@ -53,6 +53,13 @@ export async function apiRequest<T>(
     console.log(`[API Response] Status: ${response.status} for ${path}`);
 
     if (!response.ok) {
+      if (response.status === 401 && !path.startsWith("/auth/")) {
+        console.warn(`[API Response] Unauthorized access on ${path}, clearing session...`);
+        setSession(null);
+        if (typeof window !== "undefined") {
+          window.location.href = "/auth/login";
+        }
+      }
       let errorMessage = `HTTP error! status: ${response.status}`;
       try {
         const errorData = await response.json();
@@ -86,6 +93,7 @@ export interface LocalResume {
   id: string;
   title: string;
   targetJobRole?: string;
+  summary?: string;
   templateId?: string;
   personalDetails?: any;
   experiences?: any[];
@@ -93,6 +101,7 @@ export interface LocalResume {
   educations?: any[];
   skills?: any[];
   certifications?: any[];
+  languages?: any[];
   font?: string;
   fontSize?: string;
   lineSpacing?: number;

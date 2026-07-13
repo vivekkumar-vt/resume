@@ -72,6 +72,7 @@ public class ResumeService {
         entity.setShowIcons(dto.getShowIcons());
         entity.setShowPhoto(dto.getShowPhoto());
         entity.setSectionOrder(dto.getSectionOrder());
+        entity.setSummary(dto.getSummary());
 
         // Update Personal Details
         if (dto.getPersonalDetails() != null) {
@@ -219,6 +220,19 @@ public class ResumeService {
                 entity.addCertification(cert);
             }
         }
+
+        // Update Languages
+        entity.getLanguages().clear();
+        if (dto.getLanguages() != null) {
+            for (ResumeDto.LanguageDto langDto : dto.getLanguages()) {
+                Language lang = Language.builder()
+                        .name(langDto.getName())
+                        .proficiency(langDto.getProficiency())
+                        .listOrder(langDto.getListOrder())
+                        .build();
+                entity.addLanguage(lang);
+            }
+        }
     }
 
     private ResumeDto mapToDto(Resume entity) {
@@ -346,6 +360,15 @@ public class ResumeService {
                         .build()
         ).collect(Collectors.toList());
 
+        List<ResumeDto.LanguageDto> langDtos = entity.getLanguages().stream().map(lang ->
+                ResumeDto.LanguageDto.builder()
+                        .id(lang.getId())
+                        .name(lang.getName())
+                        .proficiency(lang.getProficiency())
+                        .listOrder(lang.getListOrder())
+                        .build()
+        ).collect(Collectors.toList());
+
         return ResumeDto.builder()
                 .id(entity.getId())
                 .title(entity.getTitle())
@@ -360,12 +383,14 @@ public class ResumeService {
                 .showIcons(entity.getShowIcons())
                 .showPhoto(entity.getShowPhoto())
                 .sectionOrder(entity.getSectionOrder())
+                .summary(entity.getSummary())
                 .personalDetails(pdDto)
                 .experiences(expDtos)
                 .projects(projDtos)
                 .educations(eduDtos)
                 .skills(skillDtos)
                 .certifications(certDtos)
+                .languages(langDtos)
                 .build();
     }
 }

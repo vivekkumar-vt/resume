@@ -14,7 +14,7 @@ export default function ResumePDF({ data }: ResumePDFProps) {
   const fontSize = parseFloat(data.fontSize || "10pt");
   const lineSpacing = data.lineSpacing || 1.15;
   const margins = (data.margins || 1.0) * 28.34; // Convert inches to points (1 in = 72 pt, let's use 28.34 pt per cm, so 1.0 approx 36pt)
-  const accentColor = data.accentColor || "#4f46e5";
+  const accentColor = data.accentColor || "#0b0b0bff";
   const showIcons = data.showIcons !== false;
   const templateId = data.templateId || "classic";
 
@@ -193,27 +193,39 @@ export default function ResumePDF({ data }: ResumePDFProps) {
           .map((secId: string) => {
             switch (secId) {
               case "summary":
-                return data.targetJobRole ? (
+                const summaryText = data.summary !== undefined && data.summary !== null && data.summary !== ""
+                  ? data.summary
+                  : (data.targetJobRole ? `Experienced professional specializing in ${data.targetJobRole}. Proven track record of delivering clean architectures and modern solutions with high performance standards.` : "");
+                return summaryText ? (
                   <View style={styles.section} key="summary">
                     <Text style={styles.sectionTitle}>Professional Summary</Text>
                     <Text style={styles.summaryText}>
-                      Experienced professional specializing in {data.targetJobRole}. Proven track record of delivering clean architectures and modern solutions with high performance standards.
+                      {summaryText}
                     </Text>
                   </View>
                 ) : null;
 
               case "experience":
-                return data.experiences && data.experiences.length > 0 ? (
+                const validExperiences = (data.experiences || []).filter((e: any) => 
+                  e.jobTitle?.trim() || e.company?.trim() || e.location?.trim() || e.responsibilities?.trim()
+                );
+                return validExperiences.length > 0 ? (
                   <View style={styles.section} key="experience">
                     <Text style={styles.sectionTitle}>Work Experience</Text>
-                    {data.experiences.map((exp: any, index: number) => (
+                    {validExperiences.map((exp: any, index: number) => (
                       <View key={exp.id || index} style={styles.entry}>
                         <View style={styles.entryHeader}>
-                          <Text style={styles.entryTitle}>{exp.jobTitle} at {exp.company}</Text>
-                          <Text style={styles.entryMeta}>
-                            {exp.startDate ? new Date(exp.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : ""} -{" "}
-                            {exp.isCurrentJob ? "Present" : exp.endDate ? new Date(exp.endDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : ""}
+                          <Text style={styles.entryTitle}>
+                            {exp.jobTitle && exp.company 
+                              ? `${exp.jobTitle} at ${exp.company}` 
+                              : (exp.jobTitle || exp.company || "")}
                           </Text>
+                          {(exp.startDate || exp.endDate) && (
+                            <Text style={styles.entryMeta}>
+                              {exp.startDate ? new Date(exp.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : ""} -{" "}
+                              {exp.isCurrentJob ? "Present" : exp.endDate ? new Date(exp.endDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : ""}
+                            </Text>
+                          )}
                         </View>
                         {exp.location && (
                           <Text style={styles.entrySubtitle}>{exp.location} {exp.workMode ? `(${exp.workMode})` : ""}</Text>
@@ -234,13 +246,16 @@ export default function ResumePDF({ data }: ResumePDFProps) {
                 ) : null;
 
               case "projects":
-                return data.projects && data.projects.length > 0 ? (
+                const validProjects = (data.projects || []).filter((p: any) => 
+                  p.name?.trim() || p.techStack?.trim() || p.detailedDescription?.trim()
+                );
+                return validProjects.length > 0 ? (
                   <View style={styles.section} key="projects">
                     <Text style={styles.sectionTitle}>Projects</Text>
-                    {data.projects.map((proj: any, index: number) => (
+                    {validProjects.map((proj: any, index: number) => (
                       <View key={proj.id || index} style={styles.entry}>
                         <View style={styles.entryHeader}>
-                          <Text style={styles.entryTitle}>{proj.name}</Text>
+                          <Text style={styles.entryTitle}>{proj.name || ""}</Text>
                           {proj.duration && <Text style={styles.entryMeta}>{proj.duration}</Text>}
                         </View>
                         {proj.techStack && (
@@ -265,19 +280,28 @@ export default function ResumePDF({ data }: ResumePDFProps) {
                 ) : null;
 
               case "education":
-                return data.educations && data.educations.length > 0 ? (
+                const validEducations = (data.educations || []).filter((e: any) => 
+                  e.degree?.trim() || e.course?.trim() || e.college?.trim() || e.university?.trim()
+                );
+                return validEducations.length > 0 ? (
                   <View style={styles.section} key="education">
                     <Text style={styles.sectionTitle}>Education</Text>
-                    {data.educations.map((edu: any, index: number) => (
+                    {validEducations.map((edu: any, index: number) => (
                       <View key={edu.id || index} style={styles.entry}>
                         <View style={styles.entryHeader}>
-                          <Text style={styles.entryTitle}>{edu.degree} {edu.course ? `in ${edu.course}` : ""}</Text>
-                          <Text style={styles.entryMeta}>
-                            {edu.startYear ? edu.startYear : ""} - {edu.endYear ? edu.endYear : ""}
+                          <Text style={styles.entryTitle}>
+                            {edu.degree && edu.course 
+                              ? `${edu.degree} in ${edu.course}` 
+                              : (edu.degree || edu.course || "")}
                           </Text>
+                          {(edu.startYear || edu.endYear) && (
+                            <Text style={styles.entryMeta}>
+                              {edu.startYear ? edu.startYear : ""} - {edu.endYear ? edu.endYear : ""}
+                            </Text>
+                          )}
                         </View>
                         <Text style={styles.entrySubtitle}>
-                          {edu.college || edu.university}{edu.city ? `, ${edu.city}` : ""}
+                          {edu.college || edu.university || ""}{edu.city ? `, ${edu.city}` : ""}
                           {edu.cgpa ? ` (CGPA: ${edu.cgpa})` : edu.percentage ? ` (${edu.percentage}%)` : ""}
                         </Text>
                       </View>
@@ -286,33 +310,39 @@ export default function ResumePDF({ data }: ResumePDFProps) {
                 ) : null;
 
               case "skills":
-                return data.skills && data.skills.length > 0 ? (
+                const validSkills = (data.skills || []).filter((s: any) => 
+                  s.category?.trim() || s.items?.trim()
+                );
+                return validSkills.length > 0 ? (
                   <View style={styles.section} key="skills">
                     <Text style={styles.sectionTitle}>Skills</Text>
-                    {data.skills.map((skill: any, index: number) => (
+                    {validSkills.map((skill: any, index: number) => (
                       <View key={skill.id || index} style={styles.skillCategory}>
-                        <Text style={styles.skillCategoryName}>{skill.category}:</Text>
-                        <Text style={styles.skillItems}>{skill.items}</Text>
+                        <Text style={styles.skillCategoryName}>{skill.category ? `${skill.category}:` : ""}</Text>
+                        <Text style={styles.skillItems}>{skill.items || ""}</Text>
                       </View>
                     ))}
                   </View>
                 ) : null;
 
               case "certifications":
-                return data.certifications && data.certifications.length > 0 ? (
+                const validCertifications = (data.certifications || []).filter((c: any) => 
+                  c.name?.trim() || c.issuer?.trim()
+                );
+                return validCertifications.length > 0 ? (
                   <View style={styles.section} key="certifications">
                     <Text style={styles.sectionTitle}>Certifications</Text>
-                    {data.certifications.map((cert: any, index: number) => (
+                    {validCertifications.map((cert: any, index: number) => (
                       <View key={cert.id || index} style={{ marginBottom: 4 }}>
                         <View style={styles.entryHeader}>
-                          <Text style={styles.entryTitle}>{cert.name}</Text>
+                          <Text style={styles.entryTitle}>{cert.name || ""}</Text>
                           {cert.issueDate && (
                             <Text style={styles.entryMeta}>
                               Issued: {new Date(cert.issueDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}
                             </Text>
                           )}
                         </View>
-                        <Text style={styles.entrySubtitle}>Issuer: {cert.issuer}</Text>
+                        {cert.issuer && <Text style={styles.entrySubtitle}>Issuer: {cert.issuer}</Text>}
                       </View>
                     ))}
                   </View>
