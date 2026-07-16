@@ -2,7 +2,6 @@ com\resumeai\model\ResumeVersion$ResumeVersionBuilder.class
 com\resumeai\dto\AuthResponse.class
 com\resumeai\dto\ResumeDto$ProjectDto$ProjectDtoBuilder.class
 com\resumeai\dto\ResumeDto$EducationDto$EducationDtoBuilder.class
-com\resumeai\repository\PasswordResetTokenRepository.class
 com\resumeai\dto\AuthResponse$AuthResponseBuilder.class
 com\resumeai\model\Role.class
 com\resumeai\model\Project.class
@@ -15,10 +14,8 @@ com\resumeai\exception\GlobalExceptionHandler.class
 com\resumeai\model\Experience$ExperienceBuilder.class
 com\resumeai\dto\ResumeDto$CertificationDto.class
 com\resumeai\dto\ResumeDto$PersonalDetailsDto.class
-com\resumeai\dto\ResetPasswordRequest.class
 com\resumeai\controller\HealthController.class
 com\resumeai\dto\ResumeDto$PersonalDetailsDto$PersonalDetailsDtoBuilder.class
-com\resumeai\model\PasswordResetToken.class
 com\resumeai\model\ResumeVersion.class
 com\resumeai\dto\ResumeDto$ExperienceDto$ExperienceDtoBuilder.class
 com\resumeai\repository\ResumeVersionRepository.class
@@ -36,7 +33,6 @@ com\resumeai\model\Experience.class
 com\resumeai\model\Skill$SkillBuilder.class
 com\resumeai\dto\ResumeDto$ResumeDtoBuilder.class
 com\resumeai\model\User$UserBuilder.class
-com\resumeai\service\EmailService.class
 com\resumeai\model\Resume.class
 com\resumeai\dto\ResumeDto$SkillDto$SkillDtoBuilder.class
 com\resumeai\model\Language.class
@@ -47,9 +43,7 @@ com\resumeai\dto\ResumeDto$EducationDto.class
 com\resumeai\security\CustomUserDetails.class
 com\resumeai\dto\ResumeDto$LanguageDto.class
 com\resumeai\controller\AuthController.class
-com\resumeai\service\TokenCleanupScheduler.class
 com\resumeai\config\SecurityConfig.class
-com\resumeai\model\PasswordResetToken$PasswordResetTokenBuilder.class
 com\resumeai\dto\LoginRequest.class
 com\resumeai\security\CustomUserDetailsService.class
 com\resumeai\dto\ResumeDto$SkillDto.class
@@ -57,7 +51,6 @@ com\resumeai\dto\ResumeDto.class
 com\resumeai\dto\RegisterRequest.class
 com\resumeai\model\PersonalDetails.class
 com\resumeai\repository\ResumeRepository.class
-com\resumeai\dto\ForgotPasswordRequest.class
 com\resumeai\model\Certification$CertificationBuilder.class
 com\resumeai\model\Language$LanguageBuilder.class
 com\resumeai\model\User.class

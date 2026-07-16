@@ -29,8 +29,6 @@ export default function DashboardPage() {
   const [selectedTemplateId, setSelectedTemplateId] = useState("executive-classic");
   const [createStep, setCreateStep] = useState<"template" | "details">("template");
   const [showProfileModal, setShowProfileModal] = useState(false);
-  const [sendingReset, setSendingReset] = useState(false);
-  const [resetStatus, setResetStatus] = useState<string | null>(null);
 
   const router = useRouter();
 
@@ -194,23 +192,6 @@ export default function DashboardPage() {
   const handleLogout = () => {
     logout();
     router.push("/");
-  };
-
-  const handleProfileResetPassword = async () => {
-    if (!user?.email) return;
-    setSendingReset(true);
-    setResetStatus(null);
-    try {
-      await apiRequest("/auth/forgot-password", {
-        method: "POST",
-        body: JSON.stringify({ email: user.email }),
-      });
-      setResetStatus("Success! A password reset link has been sent to your email.");
-    } catch (err: any) {
-      setResetStatus(err.message || "Failed to send reset link.");
-    } finally {
-      setSendingReset(false);
-    }
   };
 
   return (
@@ -516,7 +497,6 @@ export default function DashboardPage() {
             <button
               onClick={() => {
                 setShowProfileModal(false);
-                setResetStatus(null);
               }}
               className="absolute top-4 right-4 text-zinc-400 hover:text-white p-1 rounded hover:bg-zinc-800 font-bold"
             >
@@ -571,44 +551,20 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-zinc-800">
-                <button
-                  type="button"
-                  disabled={sendingReset}
-                  onClick={handleProfileResetPassword}
-                  className="w-full flex items-center justify-center gap-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 px-4 py-2.5 text-xs font-semibold text-white transition-colors border border-zinc-700 disabled:opacity-50"
-                >
-                  {sendingReset ? (
-                    <svg className="animate-spin h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
-                  ) : (
-                    <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
-                  )}
-                  Change Password (Email Reset)
-                </button>
-                {resetStatus && (
-                  <p className={`text-[11px] mt-2 text-center font-medium ${resetStatus.startsWith("Success") ? "text-emerald-400" : "text-red-400"}`}>
-                    {resetStatus}
-                  </p>
-                )}
-              </div>
             </div>
 
-            <div className="flex justify-end gap-3 pt-6 mt-4 border-t border-zinc-800">
-              <button
+            <div className="flex justify-end gap-3 pt-6 mt-6 border-t border-zinc-800">
+              <button 
                 type="button"
                 onClick={handleLogout}
                 className="rounded-lg border border-red-950/20 bg-red-950/10 text-red-400 hover:bg-red-950/30 px-4 py-2 text-xs font-semibold transition-colors"
               >
                 Sign Out
               </button>
-              <button
+              <button 
                 type="button"
                 onClick={() => {
                   setShowProfileModal(false);
-                  setResetStatus(null);
                 }}
                 className="rounded-lg bg-indigo-600 px-4 py-2 text-xs font-semibold text-white shadow hover:bg-indigo-500 transition-colors"
               >

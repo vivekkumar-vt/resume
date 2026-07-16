@@ -215,12 +215,10 @@ export default function LoginPage() {
               </motion.div>
 
               {/* Remember me & Forgot Password */}
-              <motion.div
-                custom={3}
-                initial="hidden"
-                animate="visible"
+              <motion.div 
                 variants={itemVariants}
-                className="flex items-center justify-between text-sm pt-1"
+                custom={3}
+                className="flex items-center justify-between"
               >
                 <div className="flex items-center">
                   <input
@@ -233,14 +231,6 @@ export default function LoginPage() {
                   <label htmlFor="remember-me" className="ml-2 block text-[13px] text-slate-600 font-medium cursor-pointer select-none">
                     Remember Me
                   </label>
-                </div>
-                <div>
-                  <Link
-                    href="/forgot-password"
-                    className="text-[13px] font-semibold text-black hover:underline focus:outline-none transition-colors"
-                  >
-                   {/* Forgot Password?*/}
-                  </Link>
                 </div>
               </motion.div>
 
