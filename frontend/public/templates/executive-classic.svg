@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="100%" height="100%">
+    <rect width="300" height="400" rx="12" fill="#09090b" stroke="#1f2937" stroke-width="2"/>
+    <rect x="20" y="20" width="260" height="360" rx="8" fill="#18181b" stroke="#27272a" stroke-width="1"/>
+    
+    <!-- Profile Photo placeholder (centered) -->
+    <circle cx="150" cy="55" r="18" fill="#4f46e5" opacity="0.8"/>
+    <circle cx="150" cy="55" r="14" fill="#312e81"/>
+    <path d="M142 66 C 142 60, 158 60, 158 66 Z" fill="#a5b4fc"/>
+    <circle cx="150" cy="51" r="5" fill="#a5b4fc"/>
+
+    <!-- Centered Header -->
+    <rect x="90" y="82" width="120" height="8" rx="4" fill="#f8fafc"/>
+    <rect x="110" y="94" width="80" height="5" rx="2.5" fill="#94a3b8"/>
+    
+    <line x1="40" y1="108" x2="260" y2="108" stroke="#3f3f46" stroke-width="1"/>
+    
+    <!-- Contact Info -->
+    <rect x="50" y="116" width="200" height="4" rx="2" fill="#71717a"/>
+    
+    <!-- Summary -->
+    <rect x="40" y="132" width="220" height="5" rx="2.5" fill="#4f46e5" opacity="0.7"/>
+    <rect x="40" y="142" width="220" height="4" rx="2" fill="#52525b"/>
+    <rect x="40" y="150" width="180" height="4" rx="2" fill="#52525b"/>
+
+    <!-- Experience -->
+    <rect x="40" y="168" width="220" height="5" rx="2.5" fill="#4f46e5" opacity="0.7"/>
+    
+    <rect x="40" y="180" width="120" height="5" rx="2.5" fill="#a1a1aa"/>
+    <rect x="220" y="180" width="40" height="4" rx="2" fill="#71717a"/>
+    <rect x="40" y="188" width="220" height="3" rx="1.5" fill="#52525b"/>
+    <rect x="40" y="195" width="200" height="3" rx="1.5" fill="#52525b"/>
+
+    <rect x="40" y="208" width="120" height="5" rx="2.5" fill="#a1a1aa"/>
+    <rect x="220" y="208" width="40" height="4" rx="2" fill="#71717a"/>
+    <rect x="40" y="216" width="220" height="3" rx="1.5" fill="#52525b"/>
+
+    <!-- Skills (2 columns) -->
+    <rect x="40" y="235" width="220" height="5" rx="2.5" fill="#4f46e5" opacity="0.7"/>
+    <rect x="40" y="247" width="100" height="4" rx="2" fill="#71717a"/>
+    <rect x="40" y="255" width="80" height="4" rx="2" fill="#71717a"/>
+    <rect x="160" y="247" width="100" height="4" rx="2" fill="#71717a"/>
+    <rect x="160" y="255" width="90" height="4" rx="2" fill="#71717a"/>
+
+    <!-- Education -->
+    <rect x="40" y="275" width="220" height="5" rx="2.5" fill="#4f46e5" opacity="0.7"/>
+    <rect x="40" y="287" width="140" height="5" rx="2.5" fill="#a1a1aa"/>
+    <rect x="40" y="295" width="180" height="4" rx="2" fill="#52525b"/>
+  </svg>

@@ -38,6 +38,11 @@ export default function LoginPage() {
       return;
     }
 
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setValidationError("Please enter a valid email address");
+      return;
+    }
+
     if (password.length < 6) {
       setValidationError("Password must be at least 6 characters long");
       return;

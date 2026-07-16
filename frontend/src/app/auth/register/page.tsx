@@ -43,6 +43,12 @@ export default function RegisterPage() {
       return;
     }
 
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      console.warn("[RegisterPage] Form validation failed: email is invalid");
+      setValidationError("Please enter a valid email address");
+      return;
+    }
+
     if (!agreeTerms) {
       console.warn("[RegisterPage] Form validation failed: terms not accepted");
       setValidationError("You must agree to the Terms of Service and Privacy Policy");

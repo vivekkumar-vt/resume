@@ -3,17 +3,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
-import { 
-  ArrowLeft, Save, Download, Sparkles, User, Briefcase, 
+import {
+  ArrowLeft, Save, Download, Sparkles, User, Briefcase,
   BookOpen, Code, Award, CheckCircle, Sliders, Plus, Trash2, Eye, AlertCircle, Globe
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import { useAuth } from "../../../context/AuthContext";
-import { 
-  apiRequest, 
-  getLocalResumes, 
-  saveLocalResumes, 
-  LocalResume 
+import {
+  apiRequest,
+  getLocalResumes,
+  saveLocalResumes,
+  LocalResume
 } from "../../../utils/api";
 
 // Dynamically load PDF components to prevent Next.js SSR errors
@@ -26,7 +26,7 @@ export default function BuilderPage() {
   const { id } = useParams() as { id: string };
   const { isAuthenticated } = useAuth();
   const router = useRouter();
-  
+
   const [resume, setResume] = useState<any>(null);
   const [debouncedResume, setDebouncedResume] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -135,7 +135,7 @@ export default function BuilderPage() {
     try {
       const { pdf } = await import("@react-pdf/renderer");
       const ResumePDF = (await import("../../../components/ResumePDF")).default;
-      
+
       const blob = await pdf(<ResumePDF data={resume} />).toBlob();
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -235,13 +235,13 @@ export default function BuilderPage() {
       {/* Header bar */}
       <header className="border-b border-zinc-800 bg-zinc-900/50 backdrop-blur-md px-6 h-14 flex items-center justify-between shrink-0">
         <div className="flex items-center gap-4">
-          <button 
+          <button
             onClick={() => router.push("/dashboard")}
             className="p-1.5 hover:bg-zinc-800 rounded-lg text-zinc-400 hover:text-white transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
           </button>
-          
+
           <div>
             <h1 className="font-bold text-sm text-white">{resume.title}</h1>
             <div className="flex items-center gap-1.5 text-xs mt-0.5">
@@ -259,13 +259,13 @@ export default function BuilderPage() {
             <Sparkles className="h-3.5 w-3.5 text-indigo-400" />
              AI Review 
           </button> */}
-          
+
           {/* Download triggers client side render and download */}
-          <button 
+          <button
             onClick={handleDownload}
-            className="flex items-center gap-1.5 text-xs font-semibold bg-indigo-600 hover:bg-indigo-500 px-4 py-2 rounded-lg text-white shadow-lg shadow-indigo-500/10 hover:shadow-indigo-500/20 transition-all"
+            className="flex items-center gap-1.5 text-xs font-bold bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 text-zinc-950 px-4 py-2 rounded-lg shadow-lg shadow-emerald-500/15 hover:shadow-emerald-500/25 transition-all duration-200"
           >
-            <Download className="h-3.5 w-3.5" />
+            <Download className="h-3.5 w-3.5 text-zinc-950" />
             Download PDF
           </button>
         </div>
@@ -291,11 +291,10 @@ export default function BuilderPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-1.5 px-4 py-3 text-xs font-medium border-b-2 transition-all whitespace-nowrap ${
-                  activeTab === tab.id 
-                    ? "border-indigo-500 text-indigo-400 bg-indigo-500/5" 
+                className={`flex items-center gap-1.5 px-4 py-3 text-xs font-medium border-b-2 transition-all whitespace-nowrap ${activeTab === tab.id
+                    ? "border-indigo-500 text-indigo-400 bg-indigo-500/5"
                     : "border-transparent text-zinc-500 hover:text-zinc-300 hover:bg-zinc-900/20"
-                }`}
+                  }`}
               >
                 <tab.icon className="h-3.5 w-3.5" />
                 {tab.label}
@@ -305,7 +304,7 @@ export default function BuilderPage() {
 
           {/* Tab content panel */}
           <div className="flex-grow p-6 overflow-y-auto space-y-6 max-w-2xl mx-auto w-full pb-20">
-            
+
             {/* 1. Personal Tab */}
             {activeTab === "personal" && (
               <div className="space-y-4">
@@ -313,9 +312,9 @@ export default function BuilderPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-medium text-zinc-500 mb-1">First Name</label>
-                    <input 
-                      type="text" 
-                      value={resume.personalDetails?.firstName || ""} 
+                    <input
+                      type="text"
+                      value={resume.personalDetails?.firstName || ""}
                       onChange={e => handlePersonalDetailsChange("firstName", e.target.value)}
                       className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-2 text-white placeholder-zinc-600 focus:border-indigo-500 focus:outline-none text-xs"
                       placeholder="John"
@@ -323,9 +322,9 @@ export default function BuilderPage() {
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-zinc-500 mb-1">Last Name</label>
-                    <input 
-                      type="text" 
-                      value={resume.personalDetails?.lastName || ""} 
+                    <input
+                      type="text"
+                      value={resume.personalDetails?.lastName || ""}
                       onChange={e => handlePersonalDetailsChange("lastName", e.target.value)}
                       className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-2 text-white placeholder-zinc-600 focus:border-indigo-500 focus:outline-none text-xs"
                       placeholder="Doe"
@@ -336,19 +335,25 @@ export default function BuilderPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-medium text-zinc-500 mb-1">Email</label>
-                    <input 
-                      type="email" 
-                      value={resume.personalDetails?.email || ""} 
+                    <input
+                      type="email"
+                      value={resume.personalDetails?.email || ""}
                       onChange={e => handlePersonalDetailsChange("email", e.target.value)}
-                      className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-2 text-white placeholder-zinc-600 focus:border-indigo-500 focus:outline-none text-xs"
-                      placeholder="john.doe@example.com"
+                      className={`w-full rounded-lg border bg-zinc-900/30 px-3 py-2 text-white placeholder-zinc-600 focus:outline-none text-xs transition-colors ${resume.personalDetails?.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(resume.personalDetails.email)
+                          ? "border-red-500/80 focus:border-red-500"
+                          : "border-zinc-800 focus:border-indigo-500"
+                        }`}
+                      placeholder="@example.com"
                     />
+                    {resume.personalDetails?.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(resume.personalDetails.email) && (
+                      <p className="text-[10px] text-red-400 mt-1">Please enter a valid email address.</p>
+                    )}
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-zinc-500 mb-1">Phone</label>
-                    <input 
-                      type="text" 
-                      value={resume.personalDetails?.phone || ""} 
+                    <input
+                      type="text"
+                      value={resume.personalDetails?.phone || ""}
                       onChange={e => handlePersonalDetailsChange("phone", e.target.value)}
                       className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-2 text-white placeholder-zinc-600 focus:border-indigo-500 focus:outline-none text-xs"
                       placeholder="+123456789"
@@ -358,9 +363,9 @@ export default function BuilderPage() {
 
                 <div>
                   <label className="block text-xs font-medium text-zinc-500 mb-1">Professional Title</label>
-                  <input 
-                    type="text" 
-                    value={resume.personalDetails?.professionalTitle || ""} 
+                  <input
+                    type="text"
+                    value={resume.personalDetails?.professionalTitle || ""}
                     onChange={e => handlePersonalDetailsChange("professionalTitle", e.target.value)}
                     className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-2 text-white placeholder-zinc-600 focus:border-indigo-500 focus:outline-none text-xs"
                     placeholder="Senior Full Stack Engineer"
@@ -370,9 +375,9 @@ export default function BuilderPage() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-medium text-zinc-500 mb-1">LinkedIn URL</label>
-                    <input 
-                      type="text" 
-                      value={resume.personalDetails?.linkedin || ""} 
+                    <input
+                      type="text"
+                      value={resume.personalDetails?.linkedin || ""}
                       onChange={e => handlePersonalDetailsChange("linkedin", e.target.value)}
                       className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-2 text-white placeholder-zinc-600 focus:border-indigo-500 focus:outline-none text-xs"
                       placeholder="linkedin.com/in/username"
@@ -380,13 +385,36 @@ export default function BuilderPage() {
                   </div>
                   <div>
                     <label className="block text-xs font-medium text-zinc-500 mb-1">GitHub URL</label>
-                    <input 
-                      type="text" 
-                      value={resume.personalDetails?.github || ""} 
+                    <input
+                      type="text"
+                      value={resume.personalDetails?.github || ""}
                       onChange={e => handlePersonalDetailsChange("github", e.target.value)}
                       className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-2 text-white placeholder-zinc-600 focus:border-indigo-500 focus:outline-none text-xs"
                       placeholder="github.com/username"
                     />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 mt-4">
+                  <div>
+                    <label className="block text-xs font-medium text-zinc-500 mb-1">Profile Photo URL</label>
+                    <input
+                      type="text"
+                      value={resume.personalDetails?.photoUrl || ""}
+                      onChange={e => handlePersonalDetailsChange("photoUrl", e.target.value)}
+                      className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-2 text-white placeholder-zinc-600 focus:border-indigo-500 focus:outline-none text-xs"
+                      placeholder="https://example.com/photo.jpg"
+                    />
+                  </div>
+                  <div className="flex items-center gap-2 pt-5">
+                    <input
+                      type="checkbox"
+                      id="showPhoto"
+                      checked={resume.showPhoto !== false}
+                      onChange={e => handleUpdateResume(prev => ({ ...prev, showPhoto: e.target.checked }))}
+                      className="rounded border-zinc-800 bg-zinc-900 text-indigo-600 focus:ring-indigo-500 h-4 w-4"
+                    />
+                    <label htmlFor="showPhoto" className="text-xs font-medium text-zinc-400">Show photo on resume</label>
                   </div>
                 </div>
               </div>
@@ -401,7 +429,6 @@ export default function BuilderPage() {
                     <label className="block text-xs font-medium text-zinc-500">Summary Text</label>
                     <button className="flex items-center gap-1 text-[10px] font-semibold text-indigo-400 hover:text-indigo-300 bg-indigo-500/10 px-2 py-1 rounded">
                       <Sparkles className="h-3 w-3 animate-pulse" />
-                      AI Generate Summary
                     </button>
                   </div>
                   <textarea
@@ -415,9 +442,7 @@ export default function BuilderPage() {
                     className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-2 text-white placeholder-zinc-600 focus:border-indigo-500 focus:outline-none text-xs"
                     placeholder="Enter summary..."
                   />
-                  <p className="text-[10px] text-zinc-500 mt-2">
-                    Note: Professional summary can be tailored directly to match target job descriptions in Stage 6.
-                  </p>
+
                 </div>
               </div>
             )}
@@ -427,7 +452,7 @@ export default function BuilderPage() {
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <h3 className="text-base font-bold text-white">Work Experience</h3>
-                  <button 
+                  <button
                     onClick={() => handleAddListItem("experiences", {
                       jobTitle: "",
                       company: "",
@@ -447,7 +472,7 @@ export default function BuilderPage() {
                 ) : (
                   (resume.experiences || []).map((exp: any, index: number) => (
                     <div key={index} className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/10 space-y-4 relative">
-                      <button 
+                      <button
                         onClick={() => handleRemoveListItem("experiences", index)}
                         className="absolute top-4 right-4 p-1 hover:bg-zinc-800 rounded text-zinc-500 hover:text-red-400"
                       >
@@ -457,9 +482,9 @@ export default function BuilderPage() {
                       <div className="grid grid-cols-2 gap-4 w-11/12">
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">Job Title</label>
-                          <input 
-                            type="text" 
-                            value={exp.jobTitle || ""} 
+                          <input
+                            type="text"
+                            value={exp.jobTitle || ""}
                             onChange={e => handleListChange("experiences", index, "jobTitle", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                             placeholder="e.g. Software Engineer"
@@ -467,9 +492,9 @@ export default function BuilderPage() {
                         </div>
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">Company</label>
-                          <input 
-                            type="text" 
-                            value={exp.company || ""} 
+                          <input
+                            type="text"
+                            value={exp.company || ""}
                             onChange={e => handleListChange("experiences", index, "company", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                             placeholder="e.g. Google"
@@ -480,9 +505,9 @@ export default function BuilderPage() {
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">Location</label>
-                          <input 
-                            type="text" 
-                            value={exp.location || ""} 
+                          <input
+                            type="text"
+                            value={exp.location || ""}
                             onChange={e => handleListChange("experiences", index, "location", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                             placeholder="e.g. San Francisco, CA"
@@ -505,19 +530,19 @@ export default function BuilderPage() {
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">Start Date</label>
-                          <input 
-                            type="date" 
-                            value={exp.startDate || ""} 
+                          <input
+                            type="date"
+                            value={exp.startDate || ""}
                             onChange={e => handleListChange("experiences", index, "startDate", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                           />
                         </div>
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">End Date</label>
-                          <input 
-                            type="date" 
+                          <input
+                            type="date"
                             disabled={exp.isCurrentJob}
-                            value={exp.isCurrentJob ? "" : exp.endDate || ""} 
+                            value={exp.isCurrentJob ? "" : exp.endDate || ""}
                             onChange={e => handleListChange("experiences", index, "endDate", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none disabled:opacity-30"
                           />
@@ -563,11 +588,13 @@ export default function BuilderPage() {
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <h3 className="text-base font-bold text-white">Projects</h3>
-                  <button 
+                  <button
                     onClick={() => handleAddListItem("projects", {
                       name: "",
                       techStack: "",
                       githubUrl: "",
+                      liveDemoUrl: "",
+                      duration: "",
                       detailedDescription: ""
                     })}
                     className="flex items-center gap-1 text-xs font-semibold bg-indigo-600/10 hover:bg-indigo-600/20 text-indigo-400 px-3.5 py-1.5 rounded-lg transition-colors border border-indigo-500/20"
@@ -582,7 +609,7 @@ export default function BuilderPage() {
                 ) : (
                   (resume.projects || []).map((proj: any, index: number) => (
                     <div key={index} className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/10 space-y-4 relative">
-                      <button 
+                      <button
                         onClick={() => handleRemoveListItem("projects", index)}
                         className="absolute top-4 right-4 p-1 hover:bg-zinc-800 rounded text-zinc-500 hover:text-red-400"
                       >
@@ -592,9 +619,9 @@ export default function BuilderPage() {
                       <div className="grid grid-cols-2 gap-4 w-11/12">
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">Project Name</label>
-                          <input 
-                            type="text" 
-                            value={proj.name || ""} 
+                          <input
+                            type="text"
+                            value={proj.name || ""}
                             onChange={e => handleListChange("projects", index, "name", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                             placeholder="e.g. ResumeAI Platform"
@@ -602,9 +629,9 @@ export default function BuilderPage() {
                         </div>
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">Tech Stack</label>
-                          <input 
-                            type="text" 
-                            value={proj.techStack || ""} 
+                          <input
+                            type="text"
+                            value={proj.techStack || ""}
                             onChange={e => handleListChange("projects", index, "techStack", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                             placeholder="e.g. Next.js, Spring Boot, Postgres"
@@ -612,22 +639,32 @@ export default function BuilderPage() {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4">
+                      <div className="grid grid-cols-3 gap-4">
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">GitHub URL</label>
-                          <input 
-                            type="text" 
-                            value={proj.githubUrl || ""} 
+                          <input
+                            type="text"
+                            value={proj.githubUrl || ""}
                             onChange={e => handleListChange("projects", index, "githubUrl", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                             placeholder="e.g. github.com/username/repo"
                           />
                         </div>
                         <div>
+                          <label className="block text-[10px] font-medium text-zinc-500 mb-1">Project URL (Live Demo)</label>
+                          <input
+                            type="text"
+                            value={proj.liveDemoUrl || ""}
+                            onChange={e => handleListChange("projects", index, "liveDemoUrl", e.target.value)}
+                            className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
+                            placeholder="e.g. myproject.com"
+                          />
+                        </div>
+                        <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">Duration</label>
-                          <input 
-                            type="text" 
-                            value={proj.duration || ""} 
+                          <input
+                            type="text"
+                            value={proj.duration || ""}
                             onChange={e => handleListChange("projects", index, "duration", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                             placeholder="e.g. 3 Months"
@@ -656,7 +693,7 @@ export default function BuilderPage() {
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <h3 className="text-base font-bold text-white">Education</h3>
-                  <button 
+                  <button
                     onClick={() => handleAddListItem("educations", {
                       degree: "",
                       course: "",
@@ -677,7 +714,7 @@ export default function BuilderPage() {
                 ) : (
                   (resume.educations || []).map((edu: any, index: number) => (
                     <div key={index} className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/10 space-y-4 relative">
-                      <button 
+                      <button
                         onClick={() => handleRemoveListItem("educations", index)}
                         className="absolute top-4 right-4 p-1 hover:bg-zinc-800 rounded text-zinc-500 hover:text-red-400"
                       >
@@ -687,9 +724,9 @@ export default function BuilderPage() {
                       <div className="grid grid-cols-2 gap-4 w-11/12">
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">Degree</label>
-                          <input 
-                            type="text" 
-                            value={edu.degree || ""} 
+                          <input
+                            type="text"
+                            value={edu.degree || ""}
                             onChange={e => handleListChange("educations", index, "degree", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                             placeholder="e.g. Bachelor of Engineering"
@@ -697,9 +734,9 @@ export default function BuilderPage() {
                         </div>
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">Course/Field</label>
-                          <input 
-                            type="text" 
-                            value={edu.course || ""} 
+                          <input
+                            type="text"
+                            value={edu.course || ""}
                             onChange={e => handleListChange("educations", index, "course", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                             placeholder="e.g. Computer Science"
@@ -709,9 +746,9 @@ export default function BuilderPage() {
 
                       <div>
                         <label className="block text-[10px] font-medium text-zinc-500 mb-1">College/University</label>
-                        <input 
-                          type="text" 
-                          value={edu.college || ""} 
+                        <input
+                          type="text"
+                          value={edu.college || ""}
                           onChange={e => handleListChange("educations", index, "college", e.target.value)}
                           className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                           placeholder="e.g. Stanford University"
@@ -721,9 +758,9 @@ export default function BuilderPage() {
                       <div className="grid grid-cols-3 gap-4">
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">Start Year</label>
-                          <input 
-                            type="number" 
-                            value={edu.startYear || ""} 
+                          <input
+                            type="number"
+                            value={edu.startYear || ""}
                             onChange={e => handleListChange("educations", index, "startYear", parseInt(e.target.value) || 0)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                             placeholder="2020"
@@ -731,9 +768,9 @@ export default function BuilderPage() {
                         </div>
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">End Year</label>
-                          <input 
-                            type="number" 
-                            value={edu.endYear || ""} 
+                          <input
+                            type="number"
+                            value={edu.endYear || ""}
                             onChange={e => handleListChange("educations", index, "endYear", parseInt(e.target.value) || 0)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                             placeholder="2024"
@@ -741,9 +778,9 @@ export default function BuilderPage() {
                         </div>
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">CGPA / Grade</label>
-                          <input 
-                            type="text" 
-                            value={edu.cgpa || ""} 
+                          <input
+                            type="text"
+                            value={edu.cgpa || ""}
                             onChange={e => handleListChange("educations", index, "cgpa", parseFloat(e.target.value) || 0)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                             placeholder="9.2"
@@ -761,7 +798,7 @@ export default function BuilderPage() {
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <h3 className="text-base font-bold text-white">Skills</h3>
-                  <button 
+                  <button
                     onClick={() => handleAddListItem("skills", {
                       category: "",
                       items: ""
@@ -778,7 +815,7 @@ export default function BuilderPage() {
                 ) : (
                   (resume.skills || []).map((skill: any, index: number) => (
                     <div key={index} className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/10 space-y-4 relative">
-                      <button 
+                      <button
                         onClick={() => handleRemoveListItem("skills", index)}
                         className="absolute top-4 right-4 p-1 hover:bg-zinc-800 rounded text-zinc-500 hover:text-red-400"
                       >
@@ -787,9 +824,9 @@ export default function BuilderPage() {
 
                       <div className="w-11/12">
                         <label className="block text-[10px] font-medium text-zinc-500 mb-1">Category</label>
-                        <input 
-                          type="text" 
-                          value={skill.category || ""} 
+                        <input
+                          type="text"
+                          value={skill.category || ""}
                           onChange={e => handleListChange("skills", index, "category", e.target.value)}
                           className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                           placeholder="e.g. Programming Languages, Frameworks"
@@ -798,9 +835,9 @@ export default function BuilderPage() {
 
                       <div>
                         <label className="block text-[10px] font-medium text-zinc-500 mb-1">Skill Items (Comma-separated)</label>
-                        <input 
-                          type="text" 
-                          value={skill.items || ""} 
+                        <input
+                          type="text"
+                          value={skill.items || ""}
                           onChange={e => handleListChange("skills", index, "items", e.target.value)}
                           className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                           placeholder="e.g. Java, Python, C++, Go"
@@ -817,7 +854,7 @@ export default function BuilderPage() {
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <h3 className="text-base font-bold text-white">Certifications</h3>
-                  <button 
+                  <button
                     onClick={() => handleAddListItem("certifications", {
                       name: "",
                       issuer: "",
@@ -835,7 +872,7 @@ export default function BuilderPage() {
                 ) : (
                   (resume.certifications || []).map((cert: any, index: number) => (
                     <div key={index} className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/10 space-y-4 relative">
-                      <button 
+                      <button
                         onClick={() => handleRemoveListItem("certifications", index)}
                         className="absolute top-4 right-4 p-1 hover:bg-zinc-800 rounded text-zinc-500 hover:text-red-400"
                       >
@@ -845,9 +882,9 @@ export default function BuilderPage() {
                       <div className="grid grid-cols-2 gap-4 w-11/12">
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">Certification Name</label>
-                          <input 
-                            type="text" 
-                            value={cert.name || ""} 
+                          <input
+                            type="text"
+                            value={cert.name || ""}
                             onChange={e => handleListChange("certifications", index, "name", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                             placeholder="e.g. AWS Solutions Architect"
@@ -855,9 +892,9 @@ export default function BuilderPage() {
                         </div>
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">Issuer</label>
-                          <input 
-                            type="text" 
-                            value={cert.issuer || ""} 
+                          <input
+                            type="text"
+                            value={cert.issuer || ""}
                             onChange={e => handleListChange("certifications", index, "issuer", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                             placeholder="e.g. Amazon Web Services"
@@ -868,9 +905,9 @@ export default function BuilderPage() {
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">Issue Date</label>
-                          <input 
-                            type="date" 
-                            value={cert.issueDate || ""} 
+                          <input
+                            type="date"
+                            value={cert.issueDate || ""}
                             onChange={e => handleListChange("certifications", index, "issueDate", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                           />
@@ -887,7 +924,7 @@ export default function BuilderPage() {
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
                   <h3 className="text-base font-bold text-white">Languages</h3>
-                  <button 
+                  <button
                     onClick={() => handleAddListItem("languages", {
                       name: "",
                       proficiency: "Native"
@@ -904,7 +941,7 @@ export default function BuilderPage() {
                 ) : (
                   (resume.languages || []).map((lang: any, index: number) => (
                     <div key={index} className="p-4 rounded-xl border border-zinc-800 bg-zinc-900/10 space-y-4 relative">
-                      <button 
+                      <button
                         onClick={() => handleRemoveListItem("languages", index)}
                         className="absolute top-4 right-4 p-1 hover:bg-zinc-800 rounded text-zinc-500 hover:text-red-400"
                       >
@@ -914,9 +951,9 @@ export default function BuilderPage() {
                       <div className="grid grid-cols-2 gap-4 w-11/12">
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">Language Name</label>
-                          <input 
-                            type="text" 
-                            value={lang.name || ""} 
+                          <input
+                            type="text"
+                            value={lang.name || ""}
                             onChange={e => handleListChange("languages", index, "name", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                             placeholder="e.g. English, Spanish"
@@ -947,7 +984,7 @@ export default function BuilderPage() {
             {activeTab === "formatting" && (
               <div className="space-y-6">
                 <h3 className="text-base font-bold text-white mb-2">Resume Formatting</h3>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-xs font-medium text-zinc-500 mb-1">Font Family</label>
@@ -992,39 +1029,37 @@ export default function BuilderPage() {
                     </select>
                   </div>
 
-                  <div>
+                  {/* <div>
                     <label className="block text-xs font-medium text-zinc-500 mb-1">Accent Color</label>
                     <div className="flex items-center gap-3">
                       <input 
                         type="color" 
-                        value={resume.accentColor || "#4f46e5"}
+                        value={resume.accentColor || "#000000"}
                         onChange={e => handleUpdateResume(prev => ({ ...prev, accentColor: e.target.value }))}
                         className="h-8 w-12 rounded border border-zinc-800 bg-zinc-900 cursor-pointer"
                       />
                       <span className="text-xs text-zinc-400 font-mono uppercase">{resume.accentColor}</span>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
 
                 <div>
                   <label className="block text-xs font-medium text-zinc-500 mb-2">Resume Template</label>
-                  <div className="grid grid-cols-3 gap-3">
+                  <div className="grid grid-cols-2 gap-3">
                     {[
-                      { id: "classic", label: "Classic" },
-                      { id: "modern", label: "Modern" },
-                      { id: "minimal", label: "Minimal" },
-                      { id: "professional", label: "Professional" },
-                      { id: "compact", label: "Compact" },
+                      { id: "executive-classic", label: "Executive Classic" },
+                      { id: "elegant-minimal", label: "Elegant Minimal" },
+                      { id: "neo-gradient", label: "Neo Gradient" },
+                      { id: "professional-timeline", label: "Professional Timeline" },
                     ].map(tpl => (
                       <button
                         key={tpl.id}
                         type="button"
                         onClick={() => handleUpdateResume(prev => ({ ...prev, templateId: tpl.id }))}
-                        className={`py-3 text-xs font-medium rounded-lg border text-center transition-all ${
-                          resume.templateId === tpl.id
+                        className={`py-3 text-xs font-medium rounded-lg border text-center transition-all ${resume.templateId === tpl.id
                             ? "border-indigo-500 bg-indigo-500/5 text-indigo-400 font-semibold"
                             : "border-zinc-800 bg-zinc-900/10 text-zinc-400 hover:text-white"
-                        }`}
+                          }`}
                       >
                         {tpl.label}
                       </button>
@@ -1089,7 +1124,7 @@ export default function BuilderPage() {
               <Eye className="h-3.5 w-3.5 text-indigo-400" />
               Real-time select-text preview
             </h3>
-            
+
             <span className="text-[10px] text-zinc-500 italic">
               PDF matches exact printer dimensions
             </span>

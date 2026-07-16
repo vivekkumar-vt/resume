@@ -21,6 +21,11 @@ export default function ForgotPasswordPage() {
       return;
     }
 
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
     setSubmitting(true);
     try {
       const response = await apiRequest<{ message: string }>("/auth/forgot-password", {

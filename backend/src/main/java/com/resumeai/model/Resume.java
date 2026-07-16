@@ -55,7 +55,7 @@ public class Resume {
 
     @Column(name = "accent_color")
     @Builder.Default
-    private String accentColor = "#4f46e5";
+    private String accentColor = "#000000";
 
     @Column(name = "show_icons")
     @Builder.Default

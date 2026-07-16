@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 400" width="100%" height="100%">
+    <rect width="300" height="400" rx="12" fill="#09090b" stroke="#1f2937" stroke-width="2"/>
+    <rect x="20" y="20" width="260" height="360" rx="8" fill="#18181b" stroke="#27272a" stroke-width="1"/>
+    
+    <!-- Profile Photo (circular left-aligned) -->
+    <circle cx="58" cy="55" r="18" fill="#3f3f46" opacity="0.6"/>
+    <circle cx="58" cy="55" r="14" fill="#18181b"/>
+    <path d="M50 66 C 50 60, 66 60, 66 66 Z" fill="#71717a"/>
+    <circle cx="58" cy="51" r="5" fill="#71717a"/>
+
+    <!-- Left Header info -->
+    <rect x="88" y="42" width="130" height="8" rx="4" fill="#f8fafc"/>
+    <rect x="88" y="56" width="90" height="5" rx="2.5" fill="#52525b"/>
+    
+    <rect x="40" y="85" width="220" height="4" rx="2" fill="#3f3f46"/>
+
+    <rect x="40" y="105" width="220" height="5" rx="2" fill="#a1a1aa"/>
+    <rect x="40" y="116" width="220" height="3" rx="1.5" fill="#52525b"/>
+    <rect x="40" y="123" width="200" height="3" rx="1.5" fill="#52525b"/>
+
+    <rect x="40" y="140" width="220" height="5" rx="2" fill="#a1a1aa"/>
+    <rect x="40" y="152" width="130" height="4" rx="2" fill="#d4d4d8"/>
+    <rect x="40" y="160" width="220" height="3" rx="1.5" fill="#52525b"/>
+  </svg>
