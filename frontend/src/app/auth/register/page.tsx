@@ -318,7 +318,7 @@ export default function RegisterPage() {
               </motion.div>
 
               {/* Agree Terms Checkbox */}
-             {/*} <motion.div
+              <motion.div
                 custom={5}
                 initial="hidden"
                 animate="visible"
