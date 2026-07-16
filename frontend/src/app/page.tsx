@@ -56,11 +56,11 @@ export default function Home() {
               Resume Making 
             </span>
           </div>
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-400">
+          {/* <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-400">
             <a href="#features" className="hover:text-white transition-colors">Features</a>
             <a href="#templates" className="hover:text-white transition-colors">Templates</a>
             <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
-          </nav>
+          </nav> */}
           <div className="flex items-center gap-4">
             {isAuthenticated ? (
               <>
