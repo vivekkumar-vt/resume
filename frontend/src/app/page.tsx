@@ -2,6 +2,8 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/AuthContext";
 
 const renderTemplateThumbnail = (id: string) => {
   const fallbackId = [
@@ -31,6 +33,8 @@ const renderTemplateThumbnail = (id: string) => {
 
 export default function Home() {
   const [showTemplatesModal, setShowTemplatesModal] = useState(false);
+  const { isAuthenticated, logout } = useAuth();
+  const router = useRouter();
 
   const templatesList = [
     { id: "executive-classic", label: "Executive Classic", tag: "ATS Friendly", desc: "Centered formal design for senior positions." },
@@ -49,7 +53,7 @@ export default function Home() {
               R
             </div>
             <span className="font-semibold text-xl tracking-tight bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
-              ResumeAI
+              Resume Making 
             </span>
           </div>
           <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-zinc-400">
@@ -58,12 +62,28 @@ export default function Home() {
             <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
           </nav>
           <div className="flex items-center gap-4">
-            <Link href="/auth/login" className="text-sm font-medium text-zinc-300 hover:text-white transition-colors">
-              Sign In
-            </Link>
-            <Link href="/auth/register" className="rounded-full bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 px-4 py-2 text-sm font-bold text-zinc-950 shadow-lg shadow-emerald-500/20 transition-all duration-200">
-              Get Started
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <Link href="/dashboard" className="text-sm font-medium text-zinc-300 hover:text-white transition-colors">
+                  Dashboard
+                </Link>
+                <button 
+                  onClick={logout}
+                  className="rounded-full border border-zinc-700 bg-zinc-900/50 px-4 py-2 text-sm font-bold text-zinc-300 hover:bg-zinc-800 hover:text-white transition-all duration-200 cursor-pointer"
+                >
+                  Sign Out
+                </button>
+              </>
+            ) : (
+              <>
+                <Link href="/auth/login" className="text-sm font-medium text-zinc-300 hover:text-white transition-colors">
+                  Sign In
+                </Link>
+                <Link href="/auth/register" className="rounded-full bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 px-4 py-2 text-sm font-bold text-zinc-950 shadow-lg shadow-emerald-500/20 transition-all duration-200">
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </header>
@@ -91,14 +111,26 @@ export default function Home() {
 
             <div className="mt-10 flex items-center justify-center gap-4">
               <button 
-                onClick={() => setShowTemplatesModal(true)}
-                className="rounded-full bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 px-6 py-3 font-bold text-zinc-950 shadow-xl shadow-emerald-500/25 transition-all duration-200"
+                onClick={() => {
+                  if (isAuthenticated) {
+                    setShowTemplatesModal(true);
+                  } else {
+                    router.push("/auth/login");
+                  }
+                }}
+                className="rounded-full bg-gradient-to-r from-emerald-500 to-green-500 hover:from-emerald-400 hover:to-green-400 px-6 py-3 font-bold text-zinc-950 shadow-xl shadow-emerald-500/25 transition-all duration-200 cursor-pointer"
               >
                 Build Your Resume
               </button>
               <button 
-                onClick={() => setShowTemplatesModal(true)}
-                className="rounded-full border border-zinc-700 bg-zinc-900/50 px-6 py-3 font-semibold text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors duration-200"
+                onClick={() => {
+                  if (isAuthenticated) {
+                    setShowTemplatesModal(true);
+                  } else {
+                    router.push("/auth/login");
+                  }
+                }}
+                className="rounded-full border border-zinc-700 bg-zinc-900/50 px-6 py-3 font-semibold text-zinc-300 hover:bg-zinc-800 hover:text-white transition-colors duration-200 cursor-pointer"
               >
                 Choose a Template
               </button>

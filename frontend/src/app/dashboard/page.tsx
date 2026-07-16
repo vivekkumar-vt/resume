@@ -16,7 +16,7 @@ import {
 } from "../../utils/api";
 
 export default function DashboardPage() {
-  const { user, isAuthenticated, logout } = useAuth();
+  const { user, isAuthenticated, loading: authLoading, logout } = useAuth();
   const [resumes, setResumes] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -33,7 +33,15 @@ export default function DashboardPage() {
   const router = useRouter();
 
   useEffect(() => {
-    fetchResumes();
+    if (!authLoading && !isAuthenticated) {
+      router.push("/auth/login");
+    }
+  }, [isAuthenticated, authLoading, router]);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      fetchResumes();
+    }
   }, [isAuthenticated]);
 
   useEffect(() => {
@@ -193,6 +201,14 @@ export default function DashboardPage() {
     logout();
     router.push("/");
   };
+
+  if (authLoading || !isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-zinc-950 text-zinc-100 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-indigo-500"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col">
