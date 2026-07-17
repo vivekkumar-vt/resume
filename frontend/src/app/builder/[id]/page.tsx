@@ -1066,52 +1066,6 @@ export default function BuilderPage() {
                     ))}
                   </div>
                 </div>
-
-                <div className="border-t border-zinc-900 pt-6">
-                  <label className="block text-xs font-medium text-zinc-500 mb-2">Section Reordering</label>
-                  <div className="space-y-2">
-                    {(resume.sectionOrder || "personal,summary,experience,projects,education,skills,certifications,languages")
-                      .split(",")
-                      .map((sec: string, idx: number, arr: string[]) => {
-                        const label = sec === "personal" ? "Contact Details" : sec.charAt(0).toUpperCase() + sec.slice(1);
-                        return (
-                          <div key={sec} className="flex items-center justify-between p-2.5 rounded-lg border border-zinc-800 bg-zinc-900/20 text-xs text-zinc-300">
-                            <span className="font-medium">{label}</span>
-                            <div className="flex gap-1">
-                              <button
-                                type="button"
-                                disabled={idx === 0}
-                                onClick={() => {
-                                  const newArr = [...arr];
-                                  const temp = newArr[idx];
-                                  newArr[idx] = newArr[idx - 1];
-                                  newArr[idx - 1] = temp;
-                                  handleUpdateResume(prev => ({ ...prev, sectionOrder: newArr.join(",") }));
-                                }}
-                                className="p-1 hover:bg-zinc-800 rounded disabled:opacity-30 text-zinc-400 hover:text-white"
-                              >
-                                ▲
-                              </button>
-                              <button
-                                type="button"
-                                disabled={idx === arr.length - 1}
-                                onClick={() => {
-                                  const newArr = [...arr];
-                                  const temp = newArr[idx];
-                                  newArr[idx] = newArr[idx + 1];
-                                  newArr[idx + 1] = temp;
-                                  handleUpdateResume(prev => ({ ...prev, sectionOrder: newArr.join(",") }));
-                                }}
-                                className="p-1 hover:bg-zinc-800 rounded disabled:opacity-30 text-zinc-400 hover:text-white"
-                              >
-                                ▼
-                              </button>
-                            </div>
-                          </div>
-                        );
-                      })}
-                  </div>
-                </div>
               </div>
             )}
           </div>

@@ -44,8 +44,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Auto-migrate guest resumes to backend if any exist
       await syncLocalResumesWithBackend();
     } catch (err: any) {
-      setError(err.message || "Login failed");
-      throw err;
+      const errMsg = err.message === "Email not registered" ? "Please sign up first" : (err.message || "Login failed");
+      setError(errMsg);
+      throw new Error(errMsg);
     } finally {
       setLoading(false);
     }

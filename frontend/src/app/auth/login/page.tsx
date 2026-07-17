@@ -53,7 +53,10 @@ export default function LoginPage() {
       await login(email, password);
       router.push("/dashboard");
     } catch (err: any) {
-      // Error is already captured by AuthContext
+      if (err.message === "Please sign up first") {
+        alert("Please sign up first");
+        router.push("/auth/register");
+      }
     } finally {
       setSubmitting(false);
     }
