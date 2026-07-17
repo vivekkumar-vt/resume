@@ -49,7 +49,7 @@ export default function Home() {
       <header className="border-b border-zinc-800 bg-zinc-950/80 backdrop-blur-md sticky top-0 z-50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-indigo-600 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/30">
+            <div className="h-8 w-8 rounded-lg bg-gradient-to-r from-emerald-500 to-green-500 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/30">
               R
             </div>
             <span className="font-semibold text-xl tracking-tight bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
@@ -190,7 +190,7 @@ export default function Home() {
       <footer className="border-t border-zinc-900 bg-zinc-950 py-8">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-xs text-zinc-600">
-            &copy; {new Date().getFullYear()} ResumeAI. All rights reserved. <span> Created By KUMAR Groups</span>
+            &copy; {new Date().getFullYear()} Resume Making.  All rights reserved. <span> Created By KUMAR Groups</span>
           </p>
           <div className="flex gap-4 text-xs text-zinc-500">
             <a href="#" className="hover:underline">Privacy Policy</a>

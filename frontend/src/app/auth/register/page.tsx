@@ -120,14 +120,6 @@ export default function RegisterPage() {
 
         {/* RIGHT SECTION - Register Form */}
         <div className="w-full md:w-1/2 h-full order-2 md:order-2 p-8 md:p-10 lg:p-12 flex flex-col justify-center relative bg-white border-t border-slate-100 md:border-t-0 md:border-l">
-          {/* Logo at the top right */}
-          <div className="absolute top-8 right-8">
-            <svg className="w-8 h-8 text-black" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L4 7v6c0 5.25 3.42 10.16 8 11 4.58-.84 8-5.75 8-11V7l-8-5z" fill="currentColor"/>
-              <path d="M12 6l5 3.75v3.25c0 3.32-2.14 6.43-5 6.96-2.86-.53-5-3.64-5-6.96V9.75L12 6z" fill="white"/>
-              <path d="M12 8.5L9.5 11h5L12 8.5z" fill="currentColor"/>
-            </svg>
-          </div>
 
           <div className="w-full max-w-sm mx-auto space-y-7">
             {/* Header Block */}
@@ -138,8 +130,11 @@ export default function RegisterPage() {
               variants={itemVariants}
               className="space-y-1.5"
             >
-              <h1 className="text-3xl font-bold tracking-tight text-slate-900">
-                Create account
+              <div className="text-4xl font-bold tracking-tight text-black mb-2">
+                Resume Making
+              </div>
+              <h1 className="text-2xl font-bold tracking-tight text-slate-800">
+                Create Account
               </h1>
               <p className="text-sm text-slate-500 font-medium">
                 Or{" "}
@@ -147,7 +142,7 @@ export default function RegisterPage() {
                   href="/auth/login"
                   className="font-bold text-black hover:underline"
                 >
-                  sign in to your existing account
+                  Sign in to your existing account
                 </Link>
               </p>
             </motion.div>

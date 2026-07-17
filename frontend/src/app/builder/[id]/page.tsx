@@ -317,7 +317,7 @@ export default function BuilderPage() {
                       value={resume.personalDetails?.firstName || ""}
                       onChange={e => handlePersonalDetailsChange("firstName", e.target.value)}
                       className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-2 text-white placeholder-zinc-600 focus:border-indigo-500 focus:outline-none text-xs"
-                      placeholder="John"
+                      placeholder="first name"
                     />
                   </div>
                   <div>
@@ -327,7 +327,7 @@ export default function BuilderPage() {
                       value={resume.personalDetails?.lastName || ""}
                       onChange={e => handlePersonalDetailsChange("lastName", e.target.value)}
                       className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-2 text-white placeholder-zinc-600 focus:border-indigo-500 focus:outline-none text-xs"
-                      placeholder="Doe"
+                      placeholder="last name"
                     />
                   </div>
                 </div>
@@ -343,7 +343,7 @@ export default function BuilderPage() {
                           ? "border-red-500/80 focus:border-red-500"
                           : "border-zinc-800 focus:border-indigo-500"
                         }`}
-                      placeholder="@example.com"
+                      placeholder="email "
                     />
                     {resume.personalDetails?.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(resume.personalDetails.email) && (
                       <p className="text-[10px] text-red-400 mt-1">Please enter a valid email address.</p>
@@ -436,7 +436,7 @@ export default function BuilderPage() {
                     value={
                       resume.summary !== undefined && resume.summary !== null
                         ? resume.summary
-                        : (resume.targetJobRole ? `Experienced professional specializing in ${resume.targetJobRole}. Proven track record of delivering clean architectures and modern solutions with high performance standards.` : "")
+                        : ("write your professional summary.")
                     }
                     onChange={(e) => handleUpdateResume(prev => ({ ...prev, summary: e.target.value }))}
                     className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-2 text-white placeholder-zinc-600 focus:border-indigo-500 focus:outline-none text-xs"
@@ -497,7 +497,7 @@ export default function BuilderPage() {
                             value={exp.company || ""}
                             onChange={e => handleListChange("experiences", index, "company", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
-                            placeholder="e.g. Google"
+                            placeholder="company name"
                           />
                         </div>
                       </div>
@@ -510,7 +510,7 @@ export default function BuilderPage() {
                             value={exp.location || ""}
                             onChange={e => handleListChange("experiences", index, "location", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
-                            placeholder="e.g. San Francisco, CA"
+                            placeholder="location"
                           />
                         </div>
                         <div>
@@ -565,9 +565,6 @@ export default function BuilderPage() {
                       <div>
                         <div className="flex justify-between items-center mb-1">
                           <label className="block text-[10px] font-medium text-zinc-500">Responsibilities (Bullet Points)</label>
-                          <button className="flex items-center gap-1 text-[9px] font-semibold text-indigo-400 hover:text-indigo-300">
-                            <Sparkles className="h-2.5 w-2.5" /> Optimize Bullets
-                          </button>
                         </div>
                         <textarea
                           rows={3}
@@ -624,7 +621,7 @@ export default function BuilderPage() {
                             value={proj.name || ""}
                             onChange={e => handleListChange("projects", index, "name", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
-                            placeholder="e.g. ResumeAI Platform"
+                            placeholder="project name"
                           />
                         </div>
                         <div>
@@ -729,7 +726,7 @@ export default function BuilderPage() {
                             value={edu.degree || ""}
                             onChange={e => handleListChange("educations", index, "degree", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
-                            placeholder="e.g. Bachelor of Engineering"
+                            placeholder="degree/class"
                           />
                         </div>
                         <div>
@@ -751,7 +748,7 @@ export default function BuilderPage() {
                           value={edu.college || ""}
                           onChange={e => handleListChange("educations", index, "college", e.target.value)}
                           className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
-                          placeholder="e.g. Stanford University"
+                          placeholder="college/school name "
                         />
                       </div>
 
@@ -763,7 +760,7 @@ export default function BuilderPage() {
                             value={edu.startYear || ""}
                             onChange={e => handleListChange("educations", index, "startYear", parseInt(e.target.value) || 0)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
-                            placeholder="2020"
+                            placeholder="0000"
                           />
                         </div>
                         <div>
@@ -773,7 +770,7 @@ export default function BuilderPage() {
                             value={edu.endYear || ""}
                             onChange={e => handleListChange("educations", index, "endYear", parseInt(e.target.value) || 0)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
-                            placeholder="2024"
+                            placeholder="0000"
                           />
                         </div>
                         <div>
@@ -783,7 +780,7 @@ export default function BuilderPage() {
                             value={edu.cgpa || ""}
                             onChange={e => handleListChange("educations", index, "cgpa", parseFloat(e.target.value) || 0)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
-                            placeholder="9.2"
+                            placeholder="cgpa or %"
                           />
                         </div>
                       </div>
@@ -887,7 +884,7 @@ export default function BuilderPage() {
                             value={cert.name || ""}
                             onChange={e => handleListChange("certifications", index, "name", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
-                            placeholder="e.g. AWS Solutions Architect"
+                            placeholder="certificate name"
                           />
                         </div>
                         <div>
@@ -897,7 +894,7 @@ export default function BuilderPage() {
                             value={cert.issuer || ""}
                             onChange={e => handleListChange("certifications", index, "issuer", e.target.value)}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
-                            placeholder="e.g. Amazon Web Services"
+                            placeholder="issuesed by"
                           />
                         </div>
                       </div>
@@ -1028,19 +1025,6 @@ export default function BuilderPage() {
                       <option value="1.5">Loose (1.5)</option>
                     </select>
                   </div>
-
-                  {/* <div>
-                    <label className="block text-xs font-medium text-zinc-500 mb-1">Accent Color</label>
-                    <div className="flex items-center gap-3">
-                      <input 
-                        type="color" 
-                        value={resume.accentColor || "#000000"}
-                        onChange={e => handleUpdateResume(prev => ({ ...prev, accentColor: e.target.value }))}
-                        className="h-8 w-12 rounded border border-zinc-800 bg-zinc-900 cursor-pointer"
-                      />
-                      <span className="text-xs text-zinc-400 font-mono uppercase">{resume.accentColor}</span>
-                    </div>
-                  </div> */}
                 </div>
 
                 <div>
@@ -1074,13 +1058,8 @@ export default function BuilderPage() {
         {/* Right Side: Real-time Live PDF Preview */}
         <div className="w-1/2 bg-zinc-900 p-6 flex flex-col h-full overflow-hidden">
           <div className="flex items-center justify-between mb-4 shrink-0">
-            <h3 className="font-semibold text-xs tracking-wider uppercase text-zinc-500 flex items-center gap-1.5">
-              <Eye className="h-3.5 w-3.5 text-indigo-400" />
-              Real-time select-text preview
-            </h3>
-
             <span className="text-[10px] text-zinc-500 italic">
-              PDF matches exact printer dimensions
+              PDF matches exact printer dimensions A4 size 
             </span>
           </div>
 

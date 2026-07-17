@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ResumeAI — AI-Powered ATS Resume Builder & Career Copilot",
+  title: "Resume Making",
   description: "Create highly optimized, ATS-friendly resumes in minutes with AI writing assistants, formatting control, and keyword density checker.",
 };
 
