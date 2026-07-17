@@ -237,7 +237,7 @@ export const ExecutiveClassicTemplate = ({ data, details, accentColor, fontFamil
           case "summary":
             const summaryText = data.summary !== undefined && data.summary !== null && data.summary !== ""
               ? data.summary
-              : (data.targetJobRole ? `Experienced professional specializing in ${data.targetJobRole}. Proven track record of delivering clean architectures and modern solutions with high performance standards.` : "");
+              : "";
             return summaryText ? (
               <View style={styles.section} key="summary">
                 <View style={styles.sectionHeader}>
@@ -640,7 +640,7 @@ export const ElegantMinimalTemplate = ({ data, details, fontSize, lineSpacing, m
           case "summary":
             const summaryText = data.summary !== undefined && data.summary !== null && data.summary !== ""
               ? data.summary
-              : (data.targetJobRole ? `Experienced professional specializing in ${data.targetJobRole}. Proven track record of delivering clean architectures and modern solutions with high performance standards.` : "");
+              : "";
             return summaryText ? (
               <View style={styles.section} key="summary">
                 <View style={styles.sectionHeader}>
@@ -1039,7 +1039,7 @@ export const NeoGradientTemplate = ({ data, details, accentColor, fontFamily, fo
           case "summary":
             const summaryText = data.summary !== undefined && data.summary !== null && data.summary !== ""
               ? data.summary
-              : (data.targetJobRole ? `Experienced professional specializing in ${data.targetJobRole}. Proven track record of delivering clean architectures and modern solutions with high performance standards.` : "");
+              : "";
             return summaryText ? (
               <View style={styles.section} key="summary">
                 <Text style={styles.sectionTitle}>Summary</Text>
@@ -1366,7 +1366,7 @@ export const ProfessionalTimelineTemplate = ({ data, details, accentColor, fontF
           case "summary":
             const summaryText = data.summary !== undefined && data.summary !== null && data.summary !== ""
               ? data.summary
-              : (data.targetJobRole ? `Experienced professional specializing in ${data.targetJobRole}. Proven track record of delivering clean architectures and modern solutions with high performance standards.` : "");
+              : "";
             return summaryText ? (
               <View style={styles.section} key="summary">
                 <Text style={styles.sectionTitle}>Summary</Text>
