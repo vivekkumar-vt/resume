@@ -22,6 +22,17 @@ const ResumePDFViewer = dynamic(
   { ssr: false, loading: () => <div className="flex h-full items-center justify-center text-zinc-400 bg-zinc-900/50 rounded-2xl border border-zinc-800">Loading Preview Panel...</div> }
 );
 
+const getBulletPointsText = (jsonStr: string | undefined | null): string => {
+  if (!jsonStr) return "";
+  try {
+    const parsed = JSON.parse(jsonStr);
+    if (Array.isArray(parsed)) {
+      return parsed.join("\n");
+    }
+  } catch (e) {}
+  return jsonStr || "";
+};
+
 export default function BuilderPage() {
   const { id } = useParams() as { id: string };
   const { isAuthenticated } = useAuth();
@@ -171,6 +182,31 @@ export default function BuilderPage() {
       return {
         ...prev,
         [section]: listCopy
+      };
+    });
+  };
+
+  const handleExperienceDateChange = (index: number, field: "startDate" | "endDate", part: "month" | "year", val: string) => {
+    handleUpdateResume(prev => {
+      const listCopy = [...(prev.experiences || [])];
+      const currentVal = listCopy[index]?.[field] || "";
+      let year = currentVal ? currentVal.split("-")[0] : "";
+      let month = currentVal ? currentVal.split("-")[1] || "01" : "01";
+
+      if (part === "year") {
+        year = val.replace(/\D/g, ""); // only digits
+      } else {
+        month = val;
+      }
+
+      const newVal = year ? `${year}-${month}-01` : "";
+      listCopy[index] = {
+        ...listCopy[index],
+        [field]: newVal
+      };
+      return {
+        ...prev,
+        experiences: listCopy
       };
     });
   };
@@ -530,22 +566,67 @@ export default function BuilderPage() {
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">Start Date</label>
-                          <input
-                            type="date"
-                            value={exp.startDate || ""}
-                            onChange={e => handleListChange("experiences", index, "startDate", e.target.value)}
-                            className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
-                          />
+                          <div className="flex gap-2">
+                            <select
+                              value={exp.startDate ? exp.startDate.split("-")[1] || "01" : "01"}
+                              onChange={e => handleExperienceDateChange(index, "startDate", "month", e.target.value)}
+                              className="w-1/2 rounded-lg border border-zinc-800 bg-zinc-900 px-2 py-1.5 text-white text-xs focus:outline-none"
+                            >
+                              <option value="01">Jan</option>
+                              <option value="02">Feb</option>
+                              <option value="03">Mar</option>
+                              <option value="04">Apr</option>
+                              <option value="05">May</option>
+                              <option value="06">Jun</option>
+                              <option value="07">Jul</option>
+                              <option value="08">Aug</option>
+                              <option value="09">Sep</option>
+                              <option value="10">Oct</option>
+                              <option value="11">Nov</option>
+                              <option value="12">Dec</option>
+                            </select>
+                            <input
+                              type="text"
+                              maxLength={4}
+                              placeholder="YYYY"
+                              value={exp.startDate ? exp.startDate.split("-")[0] : ""}
+                              onChange={e => handleExperienceDateChange(index, "startDate", "year", e.target.value)}
+                              className="w-1/2 rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
+                            />
+                          </div>
                         </div>
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">End Date</label>
-                          <input
-                            type="date"
-                            disabled={exp.isCurrentJob}
-                            value={exp.isCurrentJob ? "" : exp.endDate || ""}
-                            onChange={e => handleListChange("experiences", index, "endDate", e.target.value)}
-                            className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none disabled:opacity-30"
-                          />
+                          <div className="flex gap-2">
+                            <select
+                              disabled={exp.isCurrentJob}
+                              value={exp.isCurrentJob ? "01" : (exp.endDate ? exp.endDate.split("-")[1] || "01" : "01")}
+                              onChange={e => handleExperienceDateChange(index, "endDate", "month", e.target.value)}
+                              className="w-1/2 rounded-lg border border-zinc-800 bg-zinc-900 px-2 py-1.5 text-white text-xs focus:outline-none disabled:opacity-30"
+                            >
+                              <option value="01">Jan</option>
+                              <option value="02">Feb</option>
+                              <option value="03">Mar</option>
+                              <option value="04">Apr</option>
+                              <option value="05">May</option>
+                              <option value="06">Jun</option>
+                              <option value="07">Jul</option>
+                              <option value="08">Aug</option>
+                              <option value="09">Sep</option>
+                              <option value="10">Oct</option>
+                              <option value="11">Nov</option>
+                              <option value="12">Dec</option>
+                            </select>
+                            <input
+                              type="text"
+                              maxLength={4}
+                              placeholder="YYYY"
+                              disabled={exp.isCurrentJob}
+                              value={exp.isCurrentJob ? "" : (exp.endDate ? exp.endDate.split("-")[0] : "")}
+                              onChange={e => handleExperienceDateChange(index, "endDate", "year", e.target.value)}
+                              className="w-1/2 rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none disabled:opacity-30"
+                            />
+                          </div>
                         </div>
                       </div>
 
@@ -565,13 +646,17 @@ export default function BuilderPage() {
                       <div>
                         <div className="flex justify-between items-center mb-1">
                           <label className="block text-[10px] font-medium text-zinc-500">Responsibilities (Bullet Points)</label>
+                          <span className="text-[9px] text-zinc-500 font-medium">One point per line (press Enter for a new point)</span>
                         </div>
                         <textarea
-                          rows={3}
-                          value={exp.responsibilities || ""}
-                          onChange={e => handleListChange("experiences", index, "responsibilities", e.target.value)}
-                          className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none placeholder-zinc-700 font-mono"
-                          placeholder='e.g. ["Developed backend API services", "Managed database schemas"]'
+                          rows={5}
+                          value={getBulletPointsText(exp.responsibilities)}
+                          onChange={e => {
+                            const lines = e.target.value.split("\n");
+                            handleListChange("experiences", index, "responsibilities", JSON.stringify(lines));
+                          }}
+                          className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-2 text-white text-xs focus:outline-none placeholder-zinc-600 font-sans"
+                          placeholder={"• Developed backend API services\n• Managed database schemas\n• Optimized query performance"}
                         />
                       </div>
                     </div>
@@ -756,21 +841,29 @@ export default function BuilderPage() {
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">Start Year</label>
                           <input
-                            type="number"
+                            type="text"
+                            maxLength={4}
+                            placeholder="YYYY"
                             value={edu.startYear || ""}
-                            onChange={e => handleListChange("educations", index, "startYear", parseInt(e.target.value) || 0)}
+                            onChange={e => {
+                              const val = e.target.value.replace(/\D/g, "");
+                              handleListChange("educations", index, "startYear", parseInt(val) || 0);
+                            }}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
-                            placeholder="0000"
                           />
                         </div>
                         <div>
                           <label className="block text-[10px] font-medium text-zinc-500 mb-1">End Year</label>
                           <input
-                            type="number"
+                            type="text"
+                            maxLength={4}
+                            placeholder="YYYY"
                             value={edu.endYear || ""}
-                            onChange={e => handleListChange("educations", index, "endYear", parseInt(e.target.value) || 0)}
+                            onChange={e => {
+                              const val = e.target.value.replace(/\D/g, "");
+                              handleListChange("educations", index, "endYear", parseInt(val) || 0);
+                            }}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
-                            placeholder="0000"
                           />
                         </div>
                         <div>
@@ -901,11 +994,16 @@ export default function BuilderPage() {
 
                       <div className="grid grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-[10px] font-medium text-zinc-500 mb-1">Issue Date</label>
+                          <label className="block text-[10px] font-medium text-zinc-500 mb-1">Issue Year</label>
                           <input
-                            type="date"
-                            value={cert.issueDate || ""}
-                            onChange={e => handleListChange("certifications", index, "issueDate", e.target.value)}
+                            type="text"
+                            maxLength={4}
+                            placeholder="YYYY"
+                            value={cert.issueDate ? cert.issueDate.split("-")[0] : ""}
+                            onChange={e => {
+                              const val = e.target.value.replace(/\D/g, "");
+                              handleListChange("certifications", index, "issueDate", val ? `${val}-01-01` : "");
+                            }}
                             className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-1.5 text-white text-xs focus:outline-none"
                           />
                         </div>

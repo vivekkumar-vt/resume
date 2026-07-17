@@ -179,9 +179,12 @@ export default function ResumePDF({ data }: ResumePDFProps) {
     if (!jsonStr) return [];
     try {
       const parsed = JSON.parse(jsonStr);
-      return Array.isArray(parsed) ? parsed : [jsonStr];
+      if (Array.isArray(parsed)) {
+        return parsed.map((item: any) => String(item).trim()).filter(item => item !== "");
+      }
+      return [jsonStr.trim()].filter(item => item !== "");
     } catch (e) {
-      return [jsonStr];
+      return [jsonStr.trim()].filter(item => item !== "");
     }
   };
 

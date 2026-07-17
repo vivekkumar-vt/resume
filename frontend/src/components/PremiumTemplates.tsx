@@ -19,6 +19,41 @@ const formatContactLink = (type: "linkedin" | "github" | "portfolio", value: str
   return trimmed.startsWith("http") ? trimmed : `https://${trimmed}`;
 };
 
+const formatYearOnly = (dateStr: string | undefined | null): string => {
+  if (!dateStr) return "";
+  const trimmed = String(dateStr).trim();
+  if (/^\d{4}$/.test(trimmed)) {
+    return trimmed;
+  }
+  const match = trimmed.match(/\b\d{4}\b/);
+  if (match) {
+    return match[0];
+  }
+  try {
+    const d = new Date(trimmed);
+    if (!isNaN(d.getTime())) {
+      return d.getUTCFullYear().toString();
+    }
+  } catch (e) {}
+  return trimmed;
+};
+
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+const formatMonthYear = (dateStr: string | undefined | null): string => {
+  if (!dateStr) return "";
+  const trimmed = String(dateStr).trim();
+  const parts = trimmed.split("-");
+  if (parts.length >= 2) {
+    const year = parts[0];
+    const monthIndex = parseInt(parts[1], 10) - 1;
+    if (monthIndex >= 0 && monthIndex < 12) {
+      return `${MONTH_NAMES[monthIndex]} ${year}`;
+    }
+  }
+  return formatYearOnly(dateStr);
+};
+
 export interface TemplateProps {
   data: any;
   details: any;
@@ -262,8 +297,8 @@ export const ExecutiveClassicTemplate = ({ data, details, accentColor, fontFamil
                       <Text style={styles.entryTitle}>{exp.jobTitle || ""}</Text>
                       {(exp.startDate || exp.endDate) && (
                         <Text style={styles.entryMeta}>
-                          {exp.startDate ? new Date(exp.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : ""} -{" "}
-                          {exp.isCurrentJob ? "Present" : exp.endDate ? new Date(exp.endDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : ""}
+                          {exp.startDate ? formatMonthYear(exp.startDate) : ""} -{" "}
+                          {exp.isCurrentJob ? "Present" : exp.endDate ? formatMonthYear(exp.endDate) : ""}
                         </Text>
                       )}
                     </View>
@@ -418,7 +453,7 @@ export const ExecutiveClassicTemplate = ({ data, details, accentColor, fontFamil
                       <Text style={styles.entryTitle}>{cert.name || ""}</Text>
                       {cert.issueDate && (
                         <Text style={styles.entryMeta}>
-                          Issued: {new Date(cert.issueDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}
+                          Issued: {formatYearOnly(cert.issueDate)}
                         </Text>
                       )}
                     </View>
@@ -667,8 +702,8 @@ export const ElegantMinimalTemplate = ({ data, details, fontSize, lineSpacing, m
                       </Text>
                       {(exp.startDate || exp.endDate) && (
                         <Text style={styles.entryMeta}>
-                          {exp.startDate ? new Date(exp.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : ""} -{" "}
-                          {exp.isCurrentJob ? "Present" : exp.endDate ? new Date(exp.endDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : ""}
+                          {exp.startDate ? formatMonthYear(exp.startDate) : ""} -{" "}
+                          {exp.isCurrentJob ? "Present" : exp.endDate ? formatMonthYear(exp.endDate) : ""}
                         </Text>
                       )}
                     </View>
@@ -800,7 +835,7 @@ export const ElegantMinimalTemplate = ({ data, details, fontSize, lineSpacing, m
                       <Text style={styles.entryTitle}>{cert.name || ""}</Text>
                       {cert.issueDate && (
                         <Text style={styles.entryMeta}>
-                          Issued: {new Date(cert.issueDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}
+                          Issued: {formatYearOnly(cert.issueDate)}
                         </Text>
                       )}
                     </View>
@@ -1062,8 +1097,8 @@ export const NeoGradientTemplate = ({ data, details, accentColor, fontFamily, fo
                       </Text>
                       {(exp.startDate || exp.endDate) && (
                         <Text style={styles.entryMeta}>
-                          {exp.startDate ? new Date(exp.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : ""} -{" "}
-                          {exp.isCurrentJob ? "Present" : exp.endDate ? new Date(exp.endDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : ""}
+                          {exp.startDate ? formatMonthYear(exp.startDate) : ""} -{" "}
+                          {exp.isCurrentJob ? "Present" : exp.endDate ? formatMonthYear(exp.endDate) : ""}
                         </Text>
                       )}
                     </View>
@@ -1187,7 +1222,7 @@ export const NeoGradientTemplate = ({ data, details, accentColor, fontFamily, fo
                       <Text style={styles.entryTitle}>{cert.name || ""}</Text>
                       {cert.issueDate && (
                         <Text style={styles.entryMeta}>
-                          Issued: {new Date(cert.issueDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}
+                          Issued: {formatYearOnly(cert.issueDate)}
                         </Text>
                       )}
                     </View>
@@ -1391,8 +1426,8 @@ export const ProfessionalTimelineTemplate = ({ data, details, accentColor, fontF
                       </Text>
                       {(exp.startDate || exp.endDate) && (
                         <Text style={styles.entryMeta}>
-                          {exp.startDate ? new Date(exp.startDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : ""} -{" "}
-                          {exp.isCurrentJob ? "Present" : exp.endDate ? new Date(exp.endDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short' }) : ""}
+                          {exp.startDate ? formatMonthYear(exp.startDate) : ""} -{" "}
+                          {exp.isCurrentJob ? "Present" : exp.endDate ? formatMonthYear(exp.endDate) : ""}
                         </Text>
                       )}
                     </View>
@@ -1520,7 +1555,7 @@ export const ProfessionalTimelineTemplate = ({ data, details, accentColor, fontF
                       <Text style={styles.entryTitle}>{cert.name || ""}</Text>
                       {cert.issueDate && (
                         <Text style={styles.entryMeta}>
-                          Issued: {new Date(cert.issueDate).toLocaleDateString(undefined, { year: 'numeric', month: 'short' })}
+                          Issued: {formatYearOnly(cert.issueDate)}
                         </Text>
                       )}
                     </View>
