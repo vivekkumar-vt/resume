@@ -78,7 +78,7 @@ export const ExecutiveClassicTemplate = ({ data, details, accentColor, fontFamil
       backgroundColor: "#ffffff",
     },
     headerContainer: {
-      marginBottom: 10,
+      marginBottom: 18,
       textAlign: "center",
     },
     name: {
@@ -102,12 +102,6 @@ export const ExecutiveClassicTemplate = ({ data, details, accentColor, fontFamil
       color: "#4b5563",
       lineHeight: 1.3,
       textAlign: "center",
-    },
-    divider: {
-      borderBottomWidth: 1.5,
-      borderBottomColor: "#374151",
-      marginTop: 8,
-      marginBottom: 12,
     },
     section: {
       marginTop: 10,
@@ -264,7 +258,6 @@ export const ExecutiveClassicTemplate = ({ data, details, accentColor, fontFamil
         {contactItems.length > 0 && (
           <Text style={styles.contactRow}>{renderedContactRow}</Text>
         )}
-        <View style={styles.divider} />
       </View>
 
       {orderedSections.filter(sec => sec !== "personal").map((secId) => {
@@ -276,7 +269,7 @@ export const ExecutiveClassicTemplate = ({ data, details, accentColor, fontFamil
             return summaryText ? (
               <View style={styles.section} key="summary">
                 <View style={styles.sectionHeader}>
-                  <Text style={styles.sectionTitle}>Professional Summary</Text>
+                  <Text style={styles.sectionTitle}>Summary</Text>
                 </View>
                 <Text style={styles.summaryText}>{summaryText}</Text>
               </View>
@@ -289,7 +282,7 @@ export const ExecutiveClassicTemplate = ({ data, details, accentColor, fontFamil
             return validExperiences.length > 0 ? (
               <View style={styles.section} key="experience">
                 <View style={styles.sectionHeader}>
-                  <Text style={styles.sectionTitle}>Work Experience</Text>
+                  <Text style={styles.sectionTitle}>Experience</Text>
                 </View>
                 {validExperiences.map((exp: any, index: number) => (
                   <View key={exp.id || index} style={styles.entry}>
@@ -507,7 +500,7 @@ export const ElegantMinimalTemplate = ({ data, details, fontSize, lineSpacing, m
       backgroundColor: "#ffffff",
     },
     headerContainer: {
-      marginBottom: 10,
+      marginBottom: 18,
       alignItems: "center",
     },
     name: {
@@ -533,12 +526,6 @@ export const ElegantMinimalTemplate = ({ data, details, fontSize, lineSpacing, m
       fontSize: fontSize * 0.85,
       color: "#6b7280",
       justifyContent: "center",
-    },
-    divider: {
-      height: 0.5,
-      backgroundColor: "#111827",
-      marginTop: 8,
-      marginBottom: 12,
     },
     section: {
       marginTop: 14,
@@ -667,7 +654,6 @@ export const ElegantMinimalTemplate = ({ data, details, fontSize, lineSpacing, m
             )}
           </View>
         )}
-        <View style={styles.divider} />
       </View>
 
       {orderedSections.filter(sec => sec !== "personal").map((secId) => {
@@ -679,7 +665,7 @@ export const ElegantMinimalTemplate = ({ data, details, fontSize, lineSpacing, m
             return summaryText ? (
               <View style={styles.section} key="summary">
                 <View style={styles.sectionHeader}>
-                  <Text style={styles.sectionTitle}>Professional Summary</Text>
+                  <Text style={styles.sectionTitle}>Summary</Text>
                 </View>
                 <Text style={styles.summaryText}>{summaryText}</Text>
               </View>
@@ -692,7 +678,7 @@ export const ElegantMinimalTemplate = ({ data, details, fontSize, lineSpacing, m
             return validExperiences.length > 0 ? (
               <View style={styles.section} key="experience">
                 <View style={styles.sectionHeader}>
-                  <Text style={styles.sectionTitle}>Work Experience</Text>
+                  <Text style={styles.sectionTitle}>Experience</Text>
                 </View>
                 {validExperiences.map((exp: any, index: number) => (
                   <View key={exp.id || index} style={styles.entry}>
@@ -1088,7 +1074,7 @@ export const NeoGradientTemplate = ({ data, details, accentColor, fontFamily, fo
             );
             return validExperiences.length > 0 ? (
               <View style={styles.section} key="experience">
-                <Text style={styles.sectionTitle}>Work Experience</Text>
+                <Text style={styles.sectionTitle}>Experience</Text>
                 {validExperiences.map((exp: any, index: number) => (
                   <View key={exp.id || index} style={styles.card}>
                     <View style={styles.entryHeader}>

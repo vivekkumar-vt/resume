@@ -459,7 +459,7 @@ export default function BuilderPage() {
             {/* 2. Summary Tab */}
             {activeTab === "summary" && (
               <div className="space-y-4">
-                <h3 className="text-base font-bold text-white mb-2">Professional Summary</h3>
+                <h3 className="text-base font-bold text-white mb-2">Summary</h3>
                 <div>
                   <div className="flex justify-between items-center mb-1">
                     <label className="block text-xs font-medium text-zinc-500">Summary Text</label>
@@ -472,7 +472,7 @@ export default function BuilderPage() {
                     value={
                       resume.summary !== undefined && resume.summary !== null
                         ? resume.summary
-                        : ("write your professional summary.")
+                        : ("write your summary.")
                     }
                     onChange={(e) => handleUpdateResume(prev => ({ ...prev, summary: e.target.value }))}
                     className="w-full rounded-lg border border-zinc-800 bg-zinc-900/30 px-3 py-2 text-white placeholder-zinc-600 focus:border-indigo-500 focus:outline-none text-xs"
@@ -483,11 +483,11 @@ export default function BuilderPage() {
               </div>
             )}
 
-            {/* 3. Work Experience Tab */}
+            {/* 3. Experience Tab */}
             {activeTab === "experience" && (
               <div className="space-y-6">
                 <div className="flex justify-between items-center">
-                  <h3 className="text-base font-bold text-white">Work Experience</h3>
+                  <h3 className="text-base font-bold text-white">Experience</h3>
                   <button
                     onClick={() => handleAddListItem("experiences", {
                       jobTitle: "",
